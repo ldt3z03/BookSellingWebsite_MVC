@@ -1,4 +1,4 @@
-
+﻿
 var dataTable;
 $(document).ready(function () {
     loadDataTable();
@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/admin/company/getall'},
+        "ajax": { url: '/admin/company/getall' },
         "columns": [
             { data: 'name', "width": "15%" },
             { data: 'streetAddress', "width": "15%" },
