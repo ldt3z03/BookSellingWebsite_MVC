@@ -32,10 +32,11 @@ namespace BookSelling.DataAccess.Repository
                 objFromDB.Description = obj.Description;
                 objFromDB.Category = obj.Category;
                 objFromDB.Author = obj.Author;
-                if(obj.ImageUrl != null) 
-                {
-                    objFromDB.ImageUrl = obj.ImageUrl;
-                }
+                objFromDB.ProductImages = obj.ProductImages;
+                //if(obj.ImageUrl != null) 
+                //{
+                //    objFromDB.ImageUrl = obj.ImageUrl;
+                //}
             }
         }
     }
