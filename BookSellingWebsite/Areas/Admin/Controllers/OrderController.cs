@@ -195,6 +195,52 @@ namespace BookSellingWebsite.Areas.Admin.Controllers
             return View(orderHeaderId);
         }
 
+        [HttpGet]
+        public IActionResult GetOrderSummary(string status)
+        {
+            var orderHeaders = GetFilteredOrderHeaders(status);
+            var orderCount = orderHeaders.Count();
+            var totalAmount = orderHeaders.Sum(o => o.OrderTotal);
+
+            return Json(new { orderCount, totalAmount });
+        }
+
+        private IQueryable<OrderHeader> GetFilteredOrderHeaders(string status)
+        {
+            IQueryable<OrderHeader> orderHeaders;
+
+            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+            {
+                orderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").AsQueryable();
+            }
+            else
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                orderHeaders = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser").AsQueryable();
+            }
+
+            switch (status)
+            {
+                case "pending":
+                    orderHeaders = orderHeaders.Where(u => u.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                    break;
+                case "inprocess":
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusInProcess);
+                    break;
+                case "completed":
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusShipped);
+                    break;
+                case "approved":
+                    orderHeaders = orderHeaders.Where(u => u.OrderStatus == SD.StatusApproved);
+                    break;
+                default:
+                    break;
+            }
+
+            return orderHeaders;
+        }
+
         #region APICALLS
         [HttpGet]
         public IActionResult GetAll(string status)
