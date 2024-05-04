@@ -6,7 +6,8 @@
     var approved = "text-primary";
     var all = "text-primary";
 
-    switch (status){
+    switch (status)
+    {
         case "pending":
             pending = "active text-white bg-primary";
             break;
@@ -22,11 +23,8 @@
         default:
             all = "active text-white bg-primary";
             break;
-
     }
 }
-
-
 
 <div class="card shadow border-0 my-4">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -41,21 +39,39 @@
             <span></span>
             <ul class="list-group list-group-horizontal-sm">
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
-                    <li class="list-group-item @inprocess">In Process</li>
+                <li class="list-group-item @inprocess">In Process</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="pending">
-                    <li class="list-group-item @pending">Payment Pending</li>
+                <li class="list-group-item @pending">Payment Pending</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="completed">
-                    <li class="list-group-item @completed">Complete</li>
+                <li class="list-group-item @completed">Complete</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="approved">
-                    <li class="list-group-item @approved">Approved</li>
+                <li class="list-group-item @approved">Approved</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="all">
-                    <li class="list-group-item @all">All</li>
+                <li class="list-group-item @all">All</li>
                 </a>
             </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Orders</h5>
+                        <p class="card-text" id="totalOrders">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Amount</h5>
+                        <p class="card-text" id="totalAmount">$0.00</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <table id="tblData" class="table table-bordered table-striped" style="width:100%">
             <thead>
@@ -76,4 +92,35 @@
 
 @section Scripts {
     <script src="~/js/order.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to update order summary
+            function updateOrderSummary(status) {
+                $.ajax({
+                    url: '/admin/order/GetOrderSummary?status=' + status,
+                    type: "GET",
+                    data: { status: status },
+                    success: function (response) {
+                        $("#totalOrders").text(response.orderCount);
+                        $("#totalAmount").text(response.totalAmount);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            // Initial call to update order summary with default status
+            updateOrderSummary('@status');
+
+            // Event listener for status links
+            $(".list-group-item").click(function () {
+                $(".list-group-item").removeClass("active text-white bg-primary");
+                $(this).addClass("active text-white bg-primary");
+
+                var status = $(this).data("status");
+                updateOrderSummary(status);
+            });
+        });
+    </script>
 }
