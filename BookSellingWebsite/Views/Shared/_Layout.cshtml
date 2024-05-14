@@ -35,6 +35,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
                         </li>
+                        
                         @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -80,7 +81,7 @@
             @RenderBody()
         </main>
     </div>
-
+    
     <footer class="border-top footer bg-primary text-muted mt-auto">
         <div class="text-center">
             Make with <i class="bi bi-heart-fill"></i> by TTP
