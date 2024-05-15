@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!-- Sử dụng phiên bản mới nhất của DataTables -->
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
 </head>
 <body>
@@ -32,15 +31,32 @@
                             <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Danh mục sản phẩm
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (ViewBag.Categories != null && ViewBag.Categories.Count > 0)
+                                {
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-category="@category">@category</a>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="dropdown-item disabled">Không có danh mục</span>
+                                }
+                            </ul>
                         </li>
-                        
+
                         @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Content Managment
+                                    Content Management
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
@@ -59,16 +75,26 @@
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
+                                    </li>
                                 </ul>
                             </li>
                         }
-                        
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    @await Component.InvokeAsync("ShoppingCart")
-                                </a>
-                            </li>
+                        <!-- Nút tìm kiếm -->
+                        <form class="d-flex" asp-controller="Home" asp-action="Index" method="get" style="width: 400px;">
+                            <input id="txtSearchPlaceholder" class="form-control me-2" type="search" name="searchString" style="position:absolute; background-color: transparent; color: #ccc; z-index: -1; width:100%;" disabled />
+                            <input id="txtSearch" class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString">
+                            <button class="btn btn-outline-dark" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </form>
 
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                @await Component.InvokeAsync("ShoppingCart")
+                            </a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -81,7 +107,7 @@
             @RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer bg-primary text-muted mt-auto">
         <div class="text-center">
             Make with <i class="bi bi-heart-fill"></i> by TTP
@@ -96,6 +122,38 @@
     <script src="https://cdn.tiny.cloud/1/km6e95sweey8z5mgqh1kgagpaebcjmmquxu12u2yvvi3uc8s/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- thư viện jQuery UI Autocomplete -->
+    @* <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> *@
+
+    <!-- thư viện jQuery UI Autocomplete -->
+    <script>
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoComplete", "Home")',
+                        type: "POST",
+                        dataType: "json",
+                        data: { search: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.label, value: item.value };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1
+            }).keydown(function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB && $("#txtSearchPlaceholder").val() !== '') {
+                    event.preventDefault();
+                    $(this).val($("#txtSearchPlaceholder").val());
+                    $("#txtSearchPlaceholder").val('');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using BookSelling.Models.ViewModels;
 using Stripe;
 using BookSelling.DataAccess.DbInitializer;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,7 @@ builder.Services.AddSession(options =>
 
 
 builder.Services.AddScoped<IDbInitializer,DbInitializer>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();

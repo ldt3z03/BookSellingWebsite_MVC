@@ -48,7 +48,7 @@
             {
                 <div class="carousel-item @(product == Model.First() ? "active" : "")">
                     <a asp-action="Details" asp-route-productId="@product.Id">
-                        <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="d-block w-100" alt="Image @product.Title">
+                        <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "https://via.placeholder.com/500")" class="d-block w-100" alt="Image @product.Title">
                     </a>
                 </div>
             }
@@ -63,58 +63,59 @@
         </button>
     </div>
 
-    <!-- Product List -->
-
-    <div class="row pb-3" style="margin-bottom: 100px;">
-        @foreach (var product in Model)
-        {
-            <div class="col-lg-3 col-sm-6">
-                <div class="row p-2">
-                    <div class="col-12 p-1">
-                        <div class="card border-0 p-3 shadow border-top border-5 rounded">
-                            @if (product.ProductImages != null && product.ProductImages.Count() > 0)
-                            {
-                                <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
-                            }
-                            else
-                            {
-                                <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
-                            }
-                            <div class="card-body pb-0">
-                                <div class="pl-1">
-                                    <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Title</p>
-                                    <p class="card-title text-warning text-center">by <b>@product.Author</b></p>
+    <div class="container">
+        <div class="row pb-3">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-3 col-sm-6">
+                    <div class="row p-2">
+                        <div class="col-12 p-1">
+                            <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                                @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                                {
+                                    <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+                                }
+                                else
+                                {
+                                    <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                                }
+                                <div class="card-body pb-0">
+                                    <div class="pl-1">
+                                        <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Title</p>
+                                        <p class="card-title text-warning text-center">by <b>@product.Author</b></p>
+                                    </div>
+                                    <div class="pl-1">
+                                        <p class="text-dark text-opacity-75 text-center mb-0">
+                                            List Price:
+                                            <span class="text-decoration-line-through">
+                                                @product.ListPrice.ToString("c")
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="pl-1">
+                                        <p class="text-dark text-opacity-75 text-center">
+                                            As low as:
+                                            <span>
+                                                @product.Price100.ToString("c")
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="pl-1">
-                                    <p class="text-dark text-opacity-75 text-center mb-0">
-                                        List Price:
-                                        <span class="text-decoration-line-through">
-                                            @product.ListPrice.ToString("c")
-                                        </span>
-                                    </p>
+                                <div>
+                                    <a asp-action="Details"
+                                       asp-route-productId="@product.Id"
+                                       class="btn btn-primary bg-gradient border-0 form-control">
+                                        Details
+                                    </a>
                                 </div>
-                                <div class="pl-1">
-                                    <p class="text-dark text-opacity-75 text-center">
-                                        As low as:
-                                        <span>
-                                            @product.Price100.ToString("c")
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <a asp-action="Details"
-                                   asp-route-productId="@product.Id"
-                                   class="btn btn-primary bg-gradient border-0 form-control">
-                                    Details
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
+
     <div class="container body-content">
         <div class="col-md-12">
             <!-- Đoạn mã iframe -->
@@ -124,5 +125,25 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var searchString = '@ViewBag.CurrentFilter';
+            if (searchString) {
+                document.getElementById("carouselExampleIndicators").style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        // Sử dụng the carousel
+        $('#carouselExampleSlidesOnly').carousel();
+
+        // Auto slide
+        $('#carouselExampleSlidesOnly').carousel({
+            interval: 1000 // Thời gian chờ giữa các lần chuyển đổi, tính bằng mili giây
+        });
+    });
+</script>

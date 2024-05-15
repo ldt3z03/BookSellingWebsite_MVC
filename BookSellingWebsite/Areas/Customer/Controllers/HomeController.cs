@@ -1,13 +1,14 @@
-
+﻿using BookSelling.DataAccess.Data;
 using BookSelling.DataAccess.Repository.IRepository;
 using BookSelling.Models;
 using BookSelling.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BookSellingWebsite.Areas.Customer.Controllers
 {
@@ -16,28 +17,69 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext db)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string category, string searchString)
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category,ProductImages");
+            IEnumerable<Product> productList;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                productList = _unitOfWork.Product.GetAll(p => p.Title.Contains(searchString), includeProperties: "Category,ProductImages");
+            }
+            else if (!string.IsNullOrEmpty(category))
+            {
+                productList = _unitOfWork.Product.GetAll(p => p.Category.Name == category, includeProperties: "Category,ProductImages");
+            }
+            else
+            {
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+            }
+
+            if (productList == null || !productList.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy sản phẩm.";
+                return RedirectToAction("Empty");
+            }
+
+            var categories = _unitOfWork.Category.GetAll().Select(c => c.Name).ToList();
+
+            if (categories != null)
+            {
+                ViewBag.Categories = categories;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             return View(productList);
         }
+
         public IActionResult Details(int productId)
         {
+            var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages");
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
             ShoppingCart cart = new()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
+                Product = product,
                 Count = 1,
                 ProductId = productId
             };
+
             return View(cart);
         }
+
         [HttpPost]
         [Authorize]
         public IActionResult Details(ShoppingCart shoppingCart)
@@ -46,7 +88,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             shoppingCart.ApplicationUserId = userId;
 
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u=>u.ApplicationUserId == userId &&
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
             u.ProductId == shoppingCart.ProductId);
 
             if (cartFromDb != null)
@@ -65,12 +107,21 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             TempData["success"] = "Cart updated successfully";
-            
-            
-
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public JsonResult AutoComplete(string search)
+        {
+            var Result = _db.Products.Where(x => x.Title.Contains(search))
+                                        .Select(x => new {
+                                            label = x.Title,
+                                            value = x.Title
+                                        }).ToList();
+            return Json(Result);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -80,6 +131,11 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Empty()
+        {
+            return View();
         }
     }
 }

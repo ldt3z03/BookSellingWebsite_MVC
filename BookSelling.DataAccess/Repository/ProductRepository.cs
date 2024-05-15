@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookSelling.DataAccess.Repository
 {
-    public class ProductRepository : Repository<Product> , IProductRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         private ApplicationDbContext _db;
         public ProductRepository(ApplicationDbContext db) : base(db)
@@ -20,7 +20,7 @@ namespace BookSelling.DataAccess.Repository
 
         public void Update(Product obj)
         {
-            var objFromDB = _db.Products.FirstOrDefault(u=>u.Id == obj.Id);
+            var objFromDB = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDB != null)
             {
                 objFromDB.Title = obj.Title;
@@ -28,7 +28,7 @@ namespace BookSelling.DataAccess.Repository
                 objFromDB.Price = obj.Price;
                 objFromDB.Price50 = obj.Price50;
                 objFromDB.ListPrice = obj.ListPrice;
-                objFromDB.Price100  = obj.Price100;
+                objFromDB.Price100 = obj.Price100;
                 objFromDB.Description = obj.Description;
                 objFromDB.Category = obj.Category;
                 objFromDB.Author = obj.Author;
