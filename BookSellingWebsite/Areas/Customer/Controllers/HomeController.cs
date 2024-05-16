@@ -137,5 +137,42 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         {
             return View();
         }
+        public IActionResult DieuKhoan()
+        {
+            return View();
+        }
+        public IActionResult ChinhSach()
+        {
+            return View();
+        }
+        public IActionResult BaoMatThanhToan()
+        {
+            return View();
+        }
+        public IActionResult GioiThieu()
+        {
+            return View();
+        }
+
+        public IActionResult DoiTraHang()
+        {
+            return View();
+        }
+        public IActionResult BaoHanh()
+        {
+            return View();
+        }
+        public IActionResult VanChuyen()
+        {
+            return View();
+        }
+        public IActionResult ChinhSachKhachSi()
+        {
+            return View();
+        }
+        public IActionResult HuongDanThanhToan()
+        {
+            return View();
+        }
     }
 }

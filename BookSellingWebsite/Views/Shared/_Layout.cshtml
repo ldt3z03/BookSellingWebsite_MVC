@@ -30,7 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
+                       
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Danh mục sản phẩm
@@ -82,10 +82,10 @@
                             </li>
                         }
                         <!-- Nút tìm kiếm -->
-                        <form class="d-flex" asp-controller="Home" asp-action="Index" method="get" style="width: 400px;">
+                        <form class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
                             <input id="txtSearchPlaceholder" class="form-control me-2" type="search" name="searchString" style="position:absolute; background-color: transparent; color: #ccc; z-index: -1; width:100%;" disabled />
                             <input id="txtSearch" class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString">
-                            <button class="btn btn-outline-dark" type="submit">
+                            <button class="btn btn-search" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
                         </form>
@@ -107,12 +107,12 @@
             @RenderBody()
         </main>
     </div>
+    <div class="container body-content">
+        <hr> <!-- Hàng kẻ ngang -->
+        @await Html.PartialAsync("_Footer")
+        
+    </div>
 
-    <footer class="border-top footer bg-primary text-muted mt-auto">
-        <div class="text-center">
-            Make with <i class="bi bi-heart-fill"></i> by TTP
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

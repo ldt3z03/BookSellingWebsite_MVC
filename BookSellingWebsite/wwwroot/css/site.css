@@ -549,3 +549,247 @@ bg-success {
         background-color: #578553;
         border-color: #578553;
     }
+
+/*footer */
+
+/* General styles for the footer */
+.ma-footer-static, .ma-block-link-follow {
+    background-color: #ffffff; /* White background */
+    padding: 40px 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Container styles */
+.footer-static .container, .block-link-follow .container {
+    max-width: 1200px;
+    margin: 0 auto; /* Center align the container */
+}
+
+/* Subscribe block styles */
+.block-subscribe {
+    background-color: #007bff; /* Primary color background */
+    padding: 30px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 40px;
+    color: #ffffff; /* White text color */
+}
+
+/* Title styles */
+.subscribe-title {
+    margin-bottom: 20px;
+}
+
+    .subscribe-title em {
+        color: #ffffff; /* White color for icon */
+        margin-right: 10px;
+    }
+
+    .subscribe-title h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        display: inline-block;
+    }
+
+    .subscribe-title label {
+        display: block;
+        font-size: 14px;
+        color: #dcdcdc;
+        margin-top: 5px;
+    }
+
+/* Form styles */
+#newsletter-validate-detail .subscribe-content {
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+    .input-group .form-control {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 4px 0 0 4px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .input-group .input-group-btn button {
+        padding: 10px 20px;
+        border-radius: 0 4px 4px 0;
+        border: 1px solid #ffffff;
+        background-color: #28a745; /* Green button */
+        color: #ffffff;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+        .input-group .input-group-btn button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+/* Footer main sections */
+.footer-section {
+    margin-bottom: 20px;
+}
+
+    .footer-section h3 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: #555;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .footer-links a:hover {
+            color: #007bff;
+        }
+
+/* Address and contact info */
+.address-footer {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #777;
+}
+
+.footer-contact h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.footer-contact .fa {
+    color: #007bff;
+    margin-right: 5px;
+}
+
+/* Social media icons */
+.footer .social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+    .footer .social-icons a:hover {
+        transform: scale(1.1);
+    }
+
+/* Payment and delivery logos */
+.footer-image-container img {
+    max-width: 100%;
+    transition: transform 0.3s ease;
+}
+
+    .footer-image-container img:hover {
+        transform: scale(1.05);
+    }
+
+/* Bottom text */
+.footer-static .text-center {
+    margin-top: 40px;
+}
+
+    .footer-static .text-center ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .footer-static .text-center ul li {
+            color: #adadad;
+        }
+
+/* Media queries for responsiveness */
+@media (max-width: 576px) {
+    .block-subscribe {
+        padding: 20px 15px;
+    }
+
+    .subscribe-title h3 {
+        font-size: 20px;
+    }
+
+    .input-group .form-control {
+        font-size: 12px;
+    }
+
+    .input-group .input-group-btn button {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-image-container img {
+        margin: 10px auto;
+    }
+}
+
+
+/* Chinh layout */
+/* Navbar Styles */
+.navbar {
+    background-color: #007bff;
+}
+
+
+
+.search-form {
+    position: relative;
+    width: 400px;
+}
+
+    .search-form .form-control {
+        border-radius: 30px;
+        padding-right: 50px;
+    }
+
+    .search-form .btn-search {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: red;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-form .btn-search:hover {
+            background-color: darkred;
+        }
+
+        .search-form .btn-search i {
+            font-size: 18px;
+        }
+
+
+

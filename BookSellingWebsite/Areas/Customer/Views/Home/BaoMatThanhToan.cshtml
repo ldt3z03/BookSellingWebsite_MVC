@@ -1,0 +1,189 @@
+﻿<div class="col-main">
+    <div class="container" style="background-color: #ffffff">
+        <div class="container-inner">
+            <div class="tabs-prod">
+                <!--------------start block rule STYLE----------------->
+                <style>
+                    .block_rule {
+                        margin: 5px 0 0px 0;
+                        display: flex;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: -webkit-flex;
+                        flex-direction: row;
+                        -webkit-box-pack: center;
+                        -ms-flex-pack: center;
+                        -webkit-justify-content: center;
+                        -webkit-box-align: center;
+                        -ms-flex-align: center;
+                        -webkit-align-items: center;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 5px 0 0px 0;
+                        border-radius: 10px 10px 10px 10px;
+                        outline: none;
+                        border-color: #cac7c7;
+                        box-shadow: 0px 0px 20px #cac7c7;
+                        background: white;
+                        padding: 20px;
+                    }
+
+                    .block_rule_title {
+                        width: 100%;
+                        background-color: white;
+                        !important
+                    }
+
+                    .block_rule_title_content {
+                        background-image: linear-gradient(to right, #ff9800, #F7695D);
+                        padding: 5px 0px 5px 0px;
+                        color: white;
+                        font-size: 1.6em;
+                        font-weight: 650;
+                        display: flex;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: -webkit-flex;
+                        flex-direction: row;
+                        -webkit-box-pack: center;
+                        -ms-flex-pack: center;
+                        -webkit-justify-content: left;
+                        -webkit-box-align: center;
+                        -ms-flex-align: center;
+                        -webkit-align-items: center;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                    }
+
+                    .block_rule_content {
+                        padding: 7.5px 15px 7.5px 15px;
+                    }
+
+                    .block_rule_content_list {
+                        display: table;
+                        position: relative;
+                        line-height: 1.5;
+                        list-style: none;
+                        margin-left: 0;
+                        border: 1px white border-radius: 0px 0px 50px 50px;
+                        text-align: justify;
+                    }
+
+                        .block_rule_content_list li:before {
+                            content: "\2022";
+                            color: black;
+                            position: absolute;
+                            left: 0;
+                        }
+
+                        .block_rule_content_list li {
+                            padding: 2px 0;
+                        }
+
+                            .block_rule_content_list li:last-child {
+                                padding: 2px 0 7.5px 0;
+                            }
+
+                    .block_rule_btn {
+                        display: flex;
+                        display: -webkit-box;
+                        display: -ms-flexbox;
+                        display: -webkit-flex;
+                        flex-direction: column;
+                        -webkit-box-pack: center;
+                        -ms-flex-pack: center;
+                        -webkit-box-align: center;
+                        -ms-flex-align: center;
+                        align-items: center;
+                        -webkit-align-items: center;
+                        -webkit-justify-content: center;
+                        justify-content: center;
+                    }
+
+                        .block_rule_btn a {
+                            background-image: linear-gradient(to right, #ff9800, #F7695D);
+                            color: white;
+                            border: 0px solid #F39801;
+                            display: flex;
+                            display: -webkit-box;
+                            display: -ms-flexbox;
+                            display: -webkit-flex;
+                            flex-direction: row;
+                            -webkit-box-pack: center;
+                            -ms-flex-pack: center;
+                            -webkit-box-align: center;
+                            -ms-flex-align: center;
+                            align-items: center;
+                            -webkit-align-items: center;
+                            -webkit-justify-content: center;
+                            justify-content: center;
+                            width: 200px;
+                            font-size: 1.1em;
+                            font-weight: 700;
+                            transition: all 0.3s;
+                            box-shadow: 0px 4px 6px hsl(0, 0%, 90%);
+                            -moz-box-shadow: 0px 4px 6px hsl(0, 0%, 90%);
+                            -webkit-box-shadow: 0px 4px 6px hsl(0, 0%, 90%);
+                            border-radius: 20px;
+                            -moz-border-radius: 20px;
+                            -webkit-border-radius: 20px;
+                            padding: 8px 0;
+                            margin: 8px 0;
+                            cursor: pointer;
+                            user-select: none;
+                        }
+
+                        .block_rule_btn > a:hover {
+                            box-shadow: 0px 6px 8px hsl(0, 0%, 90%);
+                            -moz-box-shadow: 0px 6px 8px hsl(0, 0%, 90%);
+                            -webkit-box-shadow: 0px 6px 8px hsl(0, 0%, 90%);
+                            transform: scale(1.03);
+                        }
+
+                        .block_rule_btn > a:active {
+                            box-shadow: 0px 2px 4px hsl(0, 0%, 90%);
+                            -moz-box-shadow: 0px 2px 4px hsl(0, 0%, 90%);
+                            webkit-box-shadow: 0px 2px 4px hsl(0, 0%, 90%);
+                            transform: scale(0.98);
+                        }
+                </style>
+                <!--------------end block rule STYLE----------------->
+                <!--------------start block rule 4.1----------------->
+                <div class="block_rule" id="thele">
+                    <div class="block_rule_title">
+                        <div class="block_rule_content">
+                            <ui class="block_rule_content_list" style="font-size: 16px">
+                                <p><strong>CHÍNH SÁCH BẢO MẬT THANH TOÁN</strong></p>
+                                <p><strong>1. Cam kết bảo mật</strong></p>
+                                <p>- Hệ thống thanh toán thẻ được cung cấp bởi các đối tác thanh toán (<strong>“Đối tác cổng thanh toán”</strong>) đã được cấp phép hoạt động hợp pháp tại Việt Nam. Theo đó, các tiêu chuẩn bảo mật thanh toán thẻ tại TTP SELLS BOOKS đảm bảo tuân thủ theo các tiêu chuẩn bảo mật ngành</p>
+                                <p><strong>2. Quy định bảo mật:</strong></p>
+                                <p>
+                                    - Chính sách giao dịch thanh toán bằng thẻ quốc tế và thẻ nội địa (internet banking) đảm bảo tuân thủ các tiêu chuẩn của các Đối tác cổng thanh toán gồm:
+                                </p>
+                                <ul>
+                                    <li>Thông tin tài chính của Khách hàng sẽ được bảo vệ trong suốt quá trình giao dịch bằng giao thức SSL (Secure Sockets Layer) bằng cách mã hóa tất cả các thông tin Khách hàng nhập vào.</li>
+                                    <li>Chứng nhận tiêu chuẩn bảo mật dữ liệu thông tin thanh toán (PCI DSS) do Trustwave cung cấp.</li>
+                                    <li>Mật khẩu sử dụng một lần (OTP) được gửi qua SMS để đảm bảo việc truy cập tài khoản được xác thực.</li>
+                                    <li>Tiêu chuản mã hóa MD5 12 bit.</li>
+                                    <li>Các nguyên tắc và quy định bảo mật thông tin trong ngành tài chính ngân hàng theo quy định của Ngân hàng Nhà nước Việt Nam.</li>
+                                </ul>
+                                <p>- Chính sách bảo mật giao dịch trong thanh toán của TTP SELLS BOOKS áp dụng với Khách hàng:</p>
+                                <ul>
+                                    <li>TTP SELLS BOOKS cung cấp tiện ích lưu giữ Token – chỉ lưu giữ chuối đã được mã hóa bởi Đối Tác Cổng Thanh Toán cung cấp cho TTP SELLS BOOKS. TTP SELLS BOOKS không trực tiếp lưu giữ thông tin thẻ Khách hàng. Việc bảo mật thông tin thẻ thanh toán Khách hàng được thực hiện bởi Đối Tác Cổng Thanh Toán đã được cấp phép.</li>
+                                    <li>Đối với thẻ quốc tế: thông tin thẻ thanh toán của Khách hàng mà có khả năng sử dụng để xác lập giao dịch không được lưu trên hệ thống của TTP SELLS BOOKS. Đối Tác Cổng Thanh Toán sẽ lưu trữ và bảo mật.</li>
+                                    <li>Đối với thẻ nội địa (internet banking), TTP SELLS BOOKS chỉ lưu trữ mã đơn hàng, mã giao dịch và tên Ngân hàng.</li>
+                                    <li>Trong trường hợp nếu Khách hàng thông báo/khiếu nại tình trạng thông tin thanh toán của Khách hàng khi mua hàng qua website/ứng dụng của TTP SELLS BOOKS bị thay đổi, xóa, hủy, sao chép, tiết lộ, di chuyển trái phép hoặc bị chiếm đoạt gây thiệt hại cho Khách hàng thì TTP SELLS BOOKS sẽ nỗ lực phối hợp với Đối Tác Cổng Thanh Toán để tìm hiểu vấn đề và hỗ trợ xử lý cho đến hoàn tất vấn đề Khách hàng đang đang gặp phải.</li>
+                                </ul>
+                                <p>
+                                    <br>
+                                    TTP SELLS BOOKS cam kết đảm bảo thực hiện nghiêm túc các biện pháp bảo mật cần thiết cho mọi hoạt động thanh toán thực hiện qua website/ứng dụng của TTP SELLS BOOKS.
+                                </p>
+                            </ui>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
