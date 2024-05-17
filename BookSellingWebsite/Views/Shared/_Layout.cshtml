@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
     <header>
@@ -112,7 +113,8 @@
         @await Html.PartialAsync("_Footer")
         
     </div>
-
+   
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -121,20 +123,40 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tiny.cloud/1/km6e95sweey8z5mgqh1kgagpaebcjmmquxu12u2yvvi3uc8s/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <!-- thư viện jQuery UI Autocomplete -->
-    @* <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> *@
 
-    <!-- thư viện jQuery UI Autocomplete -->
+    @* Options for dark mode *@
+    <script>
+        function addDarkmodeWidget() {
+            new Darkmode().showWidget();
+        }
+        window.addEventListener('load', addDarkmodeWidget);
+        const options = {
+            bottom: '64px', // default: '32px'
+            right: 'unset', // default: '32px'
+            left: '32px', // default: 'unset'
+            time: '0.5s', // default: '0.3s'
+            mixColor: '#fff', // default: '#fff'
+            backgroundColor: '#fff',  // default: '#fff'
+            buttonColorDark: '#100f2c',  // default: '#100f2c'
+            buttonColorLight: '#fff', // default: '#fff'
+            saveInCookies: false, // default: true,
+            label: '🌓', // default: ''
+            autoMatchOsTheme: true // default: true
+        }
+        const darkmode = new Darkmode(options);
+        darkmode.showWidget();
+    </script>
+
+    @* Options for AutoComplete *@
     <script>
         $(function () {
             $("#txtSearch").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '@Url.Action("AutoComplete", "Home")',
+                        url: '@Url.Action("AutoComplete", "Home", new { area = "Customer" })',
                         type: "POST",
                         dataType: "json",
                         data: { search: request.term },
@@ -142,18 +164,23 @@
                             response($.map(data, function (item) {
                                 return { label: item.label, value: item.value };
                             }));
+                        },
+                        error: function () {
+                            console.error('Failed to fetch autocomplete data.');
                         }
                     });
                 },
-                minLength: 1
-            }).keydown(function (event) {
-                if (event.keyCode === $.ui.keyCode.TAB && $("#txtSearchPlaceholder").val() !== '') {
-                    event.preventDefault();
-                    $(this).val($("#txtSearchPlaceholder").val());
-                    $("#txtSearchPlaceholder").val('');
+                minLength: 1,
+                select: function (event, ui) {
+                    $("#txtSearch").val(ui.item.value);
+                    return false;
                 }
             });
         });
     </script>
+
+    <!-- thư viện jQuery UI Autocomplete -->
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> *@
 </body>
 </html>
