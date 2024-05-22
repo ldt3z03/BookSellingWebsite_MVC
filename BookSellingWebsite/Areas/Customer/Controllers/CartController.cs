@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookSellingWebsite.Areas.Customer.Controllers
 {
@@ -14,11 +16,13 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _mailService;
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IMailService mailService)
         {
             _unitOfWork = unitOfWork;
+            _mailService = mailService;
         }
         public IActionResult Index()
         {
@@ -128,7 +132,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             {
                 //it is a regular customer account and need a capture payment
                 //stripe logic
-                var domain = "https://localhost:7000/";
+                var domain = "https://localhost:44353/";
                 var options = new Stripe.Checkout.SessionCreateOptions
                 {
                     SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
@@ -169,14 +173,15 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
-            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id,includeProperties:"ApplicationUser");
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
+
             if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
             {
-                //this is an order by customer
+                // This is an order by customer
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
 
-                if(session.PaymentStatus.ToLower() == "paid")
+                if (session.PaymentStatus.ToLower() == "paid")
                 {
                     _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
                     _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
@@ -190,6 +195,16 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
             _unitOfWork.Save();
+
+            // Send email notification
+            var mailData = new MailData
+            {
+                ReceiverEmail = orderHeader.ApplicationUser.Email,
+                ReceiverName = orderHeader.ApplicationUser.Name,
+                Title = "Order Confirmation",
+                Body = $"Your order with ID {orderHeader.Id} has been successfully placed."
+            };
+            _mailService.SendMail(mailData);
 
             return View(id);
         }

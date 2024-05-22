@@ -1,4 +1,4 @@
-
+﻿
 using BookSelling.DataAccess.Data;
 using BookSelling.DataAccess.Repository;
 using BookSelling.DataAccess.Repository.IRepository;
@@ -17,6 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//load thông tin cấu hình và lưu vào đối tượng MailSetting
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+//add dependency inject cho MailService
+builder.Services.AddTransient<IMailService, MailService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
