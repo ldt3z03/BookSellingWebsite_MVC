@@ -1,4 +1,4 @@
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
 .divider-text:before,
@@ -27,15 +27,7 @@ a.navbar-brand {
     border-color: #1861ac;
 }
 
-html {
-    font-size: 14px;
-}
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -55,6 +47,7 @@ button.accept-policy {
 }
 
 html {
+    font-size: 14px;
     position: relative;
     min-height: 100%;
 }
@@ -90,7 +83,7 @@ html {
     background-color: #3A595C !important;
 }
 
-bg-success {
+.bg-success {
     background-color: #4b7147 !important;
 }
 
@@ -751,11 +744,62 @@ bg-success {
 /* Chinh layout */
 /* Navbar Styles */
 .navbar {
-    background-color: #007bff;
+    background-color: transparent !important;
+    box-shadow: none !important; /* Loại bỏ box shadow */
+    border-bottom: none !important; /* Loại bỏ border bottom nếu có */
 }
 
+    /* Chế độ sáng (mặc định) */
+    .navbar .nav-link,
+    .navbar .navbar-brand,
+    .navbar-toggler-icon {
+        color: black; /* Màu chữ đen cho chế độ sáng */
+    }
 
+        .navbar .nav-link:hover,
+        .navbar .navbar-brand:hover,
+        .navbar-toggler-icon:hover {
+            color: #555; /* Màu chữ khi hover */
+        }
 
+    .navbar .dropdown-menu {
+        background-color: rgba(255, 255, 255, 0.8); /* Nền trắng với độ mờ 80% */
+    }
+
+    .navbar .dropdown-item {
+        color: black; /* Màu chữ đen */
+    }
+
+        .navbar .dropdown-item:hover {
+            background-color: #ddd; /* Màu nền khi hover */
+        }
+
+/* Chế độ tối */
+body.darkmode .navbar .nav-link,
+body.darkmode .navbar .navbar-brand,
+body.darkmode .navbar-toggler-icon {
+    color: white; /* Màu chữ trắng cho chế độ tối */
+}
+
+    body.darkmode .navbar .nav-link:hover,
+    body.darkmode .navbar .navbar-brand:hover,
+    body.darkmode .navbar-toggler-icon:hover {
+        color: #ddd; /* Màu chữ khi hover ở chế độ tối */
+    }
+
+body.darkmode .navbar .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.8); /* Nền đen với độ mờ 80% */
+}
+
+body.darkmode .navbar .dropdown-item {
+    color: white; /* Màu chữ trắng */
+}
+
+    body.darkmode .navbar .dropdown-item:hover {
+        background-color: #555; /* Màu nền khi hover */
+    }
+
+/* Search form styles */
 .search-form {
     position: relative;
     width: 400px;
@@ -793,3 +837,460 @@ bg-success {
 
 
 
+
+
+
+/* lay chuyen */
+.w3l-stats-section.stats-con {
+    position: absolute;
+    right: 100px;
+    bottom: -40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    background-color: var(--bg-color);
+    box-shadow: 0 25px 98px 0 rgb(0 0 0 / 9%);
+    margin: 0 auto;
+    display: block;
+    padding: 40px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    width: 400px;
+}
+
+.stats-con {
+    position: relative; /* Đặt vị trí tương đối để con số di chuyển dựa trên vị trí của phần tử cha */
+}
+
+/*animation */
+@-webkit-keyframes my {
+    0% {
+        color: #F8CD0A;
+    }
+
+    50% {
+        color: #fff;
+    }
+
+    100% {
+        color: #F8CD0A;
+    }
+}
+
+@-moz-keyframes my {
+    0% {
+        color: #F8CD0A;
+    }
+
+    50% {
+        color: #fff;
+    }
+
+    100% {
+        color: #F8CD0A;
+    }
+}
+
+@-o-keyframes my {
+    0% {
+        color: #F8CD0A;
+    }
+
+    50% {
+        color: #fff;
+    }
+
+    100% {
+        color: #F8CD0A;
+    }
+}
+
+@keyframes my {
+    0% {
+        color: #F8CD0A;
+    }
+
+    50% {
+        color: #fff;
+    }
+
+    100% {
+        color: #F8CD0A;
+    }
+}
+
+.test {
+    background: none;
+    font-size: 24px;
+    font-weight: bold;
+    -webkit-animation: my 700ms infinite;
+    -moz-animation: my 700ms infinite;
+    -o-animation: my 700ms infinite;
+    animation: my 700ms infinite;
+}
+
+
+
+
+
+/* CSS cho carousel */
+.carousel {
+    margin-bottom: 50px;
+}
+
+.carousel-item img {
+    height: 500px;
+    Adjust this value to change the height of the carousel width: 100%;
+    object-fit: contain;
+    Ensure the image fits within the container without being cropped
+}
+
+.product-card {
+    margin-bottom: 30px;
+}
+
+.product-card-title {
+    height: 3em;
+    Fixed height for titles to keep cards uniform overflow: hidden;
+}
+
+.product-card img {
+    height: 200px;
+    Fixed height for product images object-fit: cover;
+}
+
+
+/* layout navbar */
+.navbar,
+.navbar .nav-link,
+.navbar .navbar-brand,
+.navbar .dropdown-menu,
+.navbar .dropdown-item {
+    font-family: 'Roboto', sans-serif;
+    color: black; /* Màu chữ đen cho chế độ sáng */
+}
+
+body.darkmode .navbar,
+body.darkmode .navbar .nav-link,
+body.darkmode .navbar .navbar-brand,
+body.darkmode .navbar .dropdown-menu,
+body.darkmode .navbar .dropdown-item {
+    color: white; /* Màu chữ trắng cho chế độ tối */
+}
+
+.navbar {
+    background-color: transparent !important;
+    box-shadow: none !important; /* Loại bỏ box shadow */
+    border-bottom: none !important; /* Loại bỏ border bottom nếu có */
+}
+
+
+/* Thêm class waving-cat */
+.waving-cat .octo-arm {
+    animation: waving 2s linear infinite;
+}
+
+/* Định nghĩa animation waving */
+@keyframes waving {
+    0%, 100% {
+        transform: rotate(0);
+    }
+
+    20%, 60% {
+        transform: rotate(-25deg);
+    }
+
+    40%, 80% {
+        transform: rotate(10deg);
+    }
+}
+
+
+/* button top up */
+.btn-scroll-top.show {
+    right: 1.25rem;
+    opacity: 1;
+}
+
+.btn-scroll-top {
+    display: block;
+    position: fixed;
+    right: -4.125rem;
+    bottom: 1.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    transition: right 400ms cubic-bezier(.68,-.55,.265,1.55), opacity 0.3s, background-color 0.25s ease-in-out;
+    border-radius: 50%;
+    background-color: rgba(43, 52, 69, .25);
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    z-index: 1025;
+}
+
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    word-break: break-word;
+}
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+.btn-scroll-top .btn-scroll-top-tooltip {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    transition: opacity .25s ease-in-out, visibility .25s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
+    word-break: normal;
+}
+
+.font-size-sm {
+    font-size: 0.875rem !important;
+}
+
+.text-muted {
+    color: #7d879c !important;
+}
+
+.mr-2, .mx-2 {
+    margin-right: 0.5rem !important;
+}
+
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    word-break: break-word;
+}
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+
+.btn-scroll-top {
+    /* Đảm bảo rằng button có position là fixed để hiển thị ở cố định trên màn hình */
+    position: fixed;
+    bottom: 40px; /* Điều chỉnh khoảng cách từ bottom */
+    right: 40px; /* Điều chỉnh vị trí từ right */
+    z-index: 9999;
+    /* Thêm các thuộc tính khác tùy theo thiết kế của bạn */
+}
+
+    /* Hiệu ứng mượt khi hover */
+    .btn-scroll-top:hover {
+        transform: translateX(10px); /* Di chuyển nút sang phải 10px */
+        transition: transform 0.3s ease; /* Hiệu ứng di chuyển mềm mại trong 0.3s */
+    }
+
+
+/* Background video layout */
+/*#background-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+h1, h2 {
+    color: white;
+    font-family: Trebuchet MS;
+    font-weight: bold;
+    text-align: center;
+}
+
+h1 {
+    font-size: 6rem;
+    margin-top: 30vh;
+}
+
+h2 {
+    font-size: 3rem;
+}
+@media (max-width: 750px) {
+    #background-video {
+        display: none;
+    }
+
+    body {
+        background: url("https://assets.codepen.io/6093409/river.jpg") no-repeat;
+        background-size: cover;
+    }
+}*/
+:root {
+    --color-primary: #0068ff;
+    --shadow: 0 4px 8px rgba(0,0,0,.02), 0 4px 8px rgba(0,0,0,.02);
+}
+
+
+
+.section.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.main__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main__avatar img {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+
+.main__profile-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.main__name {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+    .main__name svg {
+        margin-left: 10px;
+    }
+
+.main__profile-type {
+    font-size: 16px;
+    color: #667685;
+    margin: 10px 0;
+}
+
+.button.medium {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+    .button.medium svg {
+        margin-right: 10px;
+    }
+
+.profile {
+    width: 100%;
+    margin-top: 20px;
+}
+
+    .profile h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+.profile__list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .profile__list-item svg {
+        margin-right: 10px;
+        fill: #667685;
+    }
+
+
+
+.profile__description {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #667685;
+}
+
+.main__qr-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.main__qr img {
+    width: 120px;
+    height: 120px;
+}
+
+.main__help-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #667685;
+    text-align: center;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.profile__highlight {
+    background-color: transparent;
+    color: #47bd8e;
+    font-weight: 500;
+}
+
+body {
+    background-color: #e4e8ec;
+    color: #33485c;
+    font-family: Roboto, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    text-align: left;
+    word-break: break-word;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+}
+
+/* details*/

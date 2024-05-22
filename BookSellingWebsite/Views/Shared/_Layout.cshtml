@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-transparent border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/images/book.png" style="width:30px" />
@@ -29,29 +31,31 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link " asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                       
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Danh mục sản phẩm
-                            </a>
-                            <ul class="dropdown-menu">
-                                @if (ViewBag.Categories != null && ViewBag.Categories.Count > 0)
-                                {
-                                    @foreach (var category in ViewBag.Categories)
+                        @if (!User.IsInRole(SD.Role_Admin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Danh mục sản phẩm
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @if (ViewBag.Categories != null && ViewBag.Categories.Count > 0)
                                     {
-                                        <li class="nav-item">
-                                            <a class="dropdown-item" asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-category="@category">@category</a>
-                                        </li>
+                                        @foreach (var category in ViewBag.Categories)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-category="@category">@category</a>
+                                            </li>
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    <span class="dropdown-item disabled">Không có danh mục</span>
-                                }
-                            </ul>
-                        </li>
+                                    else
+                                    {
+                                        <span class="dropdown-item disabled">Không có danh mục</span>
+                                    }
+                                </ul>
+                            </li>
+                        }
 
                         @if (User.IsInRole(SD.Role_Admin))
                         {
@@ -82,26 +86,34 @@
                                 </ul>
                             </li>
                         }
-                        <!-- Nút tìm kiếm -->
-                        <form class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
-                            <input id="txtSearchPlaceholder" class="form-control me-2" type="search" name="searchString" style="position:absolute; background-color: transparent; color: #ccc; z-index: -1; width:100%;" disabled />
-                            <input id="txtSearch" class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString">
-                            <button class="btn btn-search" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </form>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                @await Component.InvokeAsync("ShoppingCart")
-                            </a>
-                        </li>
+                        @if (!User.IsInRole(SD.Role_Admin))
+                        {
+                            <!-- Nút tìm kiếm -->
+                            <form class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
+                                <input id="txtSearchPlaceholder" class="form-control me-2" type="search" name="searchString" style="position:absolute; background-color: transparent; color: #ccc; z-index: -1; width:100%;" disabled />
+                                <input id="txtSearch" class="form-control me-2" type="search" placeholder="Hãy nhập tên sách" aria-label="Search" name="searchString">
+                                <button class="btn btn-search" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    @await Component.InvokeAsync("ShoppingCart")
+                                </a>
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="d-flex">
+                        <!-- Phần hiển thị tên và nút logout -->
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
+        <a class="btn-scroll-top show" href="#" data-scroll="true"> <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span> <i class="btn-scroll-top-icon czi-arrow-up"></i> </a>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             <partial name="_Notification" />
@@ -109,48 +121,73 @@
         </main>
     </div>
     <div class="container body-content">
-        <hr> <!-- Hàng kẻ ngang -->
+        <hr>
         @await Html.PartialAsync("_Footer")
-        
     </div>
-   
-    
+
+    <div class="sample-container"></div> <!-- Container for FlipBook -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <!-- Sử dụng phiên bản mới nhất của DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tiny.cloud/1/km6e95sweey8z5mgqh1kgagpaebcjmmquxu12u2yvvi3uc8s/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script> *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 
-    @* Options for dark mode *@
+
+    <!-- Options for dark mode -->
     <script>
         function addDarkmodeWidget() {
-            new Darkmode().showWidget();
+            const options = {
+                bottom: '64px',
+                right: '32px',
+                left: 'unset',
+                time: '0.5s',
+                mixColor: '#fff',
+                backgroundColor: '#fff',
+                buttonColorDark: '#100f2c',
+                buttonColorLight: '#fff',
+                saveInCookies: true,
+                label: '🌓',
+                autoMatchOsTheme: true
+            };
+            const darkmode = new Darkmode(options);
+            darkmode.showWidget();
+
+            document.querySelector('.darkmode-toggle').addEventListener('click', function () {
+                setDarkmodeCookie(document.body.classList.contains('darkmode--activated'));
+            });
         }
-        window.addEventListener('load', addDarkmodeWidget);
-        const options = {
-            bottom: '64px', // default: '32px'
-            right: 'unset', // default: '32px'
-            left: '32px', // default: 'unset'
-            time: '0.5s', // default: '0.3s'
-            mixColor: '#fff', // default: '#fff'
-            backgroundColor: '#fff',  // default: '#fff'
-            buttonColorDark: '#100f2c',  // default: '#100f2c'
-            buttonColorLight: '#fff', // default: '#fff'
-            saveInCookies: false, // default: true,
-            label: '🌓', // default: ''
-            autoMatchOsTheme: true // default: true
+
+        function setDarkmodeCookie(isDark) {
+            document.cookie = "darkmode=" + isDark + "; path=/";
         }
-        const darkmode = new Darkmode(options);
-        darkmode.showWidget();
+
+        function loadDarkmode() {
+            const darkmodeCookie = document.cookie.split('; ').find(row => row.startsWith('darkmode='));
+            if (darkmodeCookie && darkmodeCookie.split('=')[1] === 'true') {
+                document.body.classList.add('darkmode');
+            }
+        }
+
+        window.addEventListener('load', function () {
+            loadDarkmode();
+            addDarkmodeWidget();
+        });
     </script>
 
-    @* Options for AutoComplete *@
+    <!-- Options for AutoComplete -->
     <script>
         $(function () {
             $("#txtSearch").autocomplete({
@@ -178,9 +215,93 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('txtSearch');
+            const searchForm = document.getElementById('searchForm');
+            const introSection = document.getElementById('intro-section');
+            const statsSection = document.getElementById('stats-section');
+            const titleHot = document.getElementById('title-Hot');
+            const carouselSection = document.getElementById('carouselExampleIndicators');
 
-    <!-- thư viện jQuery UI Autocomplete -->
-    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> *@
+            function hideSections() {
+                introSection.style.display = 'none';
+                statsSection.style.display = 'none';
+                titleHot.style.display = 'none';
+                carouselSection.style.display = 'none';
+            }
+
+            function showSections() {
+                introSection.style.display = 'block';
+                statsSection.style.display = 'flex';
+                titleHot.style.display = 'block';
+                carouselSection.style.display = 'block';
+            }
+
+            searchInput.addEventListener('input', function () {
+                if (searchInput.value.trim() !== '') {
+                    hideSections();
+                } else {
+                    showSections();
+                }
+            });
+
+            searchForm.addEventListener('submit', function (event) {
+                // Optional: Uncomment this if you want to prevent default form submission for debugging purposes
+                // event.preventDefault();
+            });
+        });
+    </script>
+
+    <!-- Scroll to Top -->
+    <script>
+        window.addEventListener('scroll', function () {
+            var scrollButton = document.querySelector('.btn-scroll-top');
+            if (window.pageYOffset > 100) {
+                scrollButton.style.display = 'block';
+            } else {
+                scrollButton.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            var scrollDuration = 200;
+            var scrollStep = -window.scrollY / (scrollDuration / 20);
+            var scrollInterval = setInterval(function () {
+                if (window.scrollY !== 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 20);
+        }
+    </script>
+    <script>
+        $('[data-fancybox]').fancybox({
+            // Options will go here
+            buttons: [
+                'close'
+            ],
+            wheel: false,
+            transitionEffect: "slide",
+            // thumbs          : false,
+            // hash            : false,
+            loop: true,
+            // keyboard        : true,
+            toolbar: false,
+            // animationEffect : false,
+            // arrows          : true,
+            clickContent: false
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Fancybox.bind("[data-fancybox='gallery']", {
+                // Options for FancyBox
+            });
+        });
+                });
+    </script>
 </body>
 </html>
+
