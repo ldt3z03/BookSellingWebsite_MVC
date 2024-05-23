@@ -138,7 +138,7 @@ namespace BookSellingWebsite.Areas.Admin.Controllers
 
             //it is a regular customer account and need a capture payment
             //stripe logic
-            var domain = "https://localhost:7000/";
+            var domain = "https://localhost:44353/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
                 SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",

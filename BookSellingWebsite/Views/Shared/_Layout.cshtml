@@ -80,13 +80,14 @@
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                         }
-
+                        
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
+                        </li>
                         @if (!User.IsInRole(SD.Role_Admin))
                         {
                             <!-- Nút tìm kiếm -->
@@ -97,12 +98,14 @@
                                     <i class="bi bi-search"></i>
                                 </button>
                             </form>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    @await Component.InvokeAsync("ShoppingCart")
-                                </a>
-                            </li>
+                            
                         }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                @await Component.InvokeAsync("ShoppingCart")
+                            </a>
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <!-- Phần hiển thị tên và nút logout -->

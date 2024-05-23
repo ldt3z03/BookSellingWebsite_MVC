@@ -13,6 +13,8 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 {
     [Area("customer")]
     [Authorize]
+    //[Authorize(Roles = "Customer")]
+    //[Authorize(Roles = "Company")]
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -175,9 +177,15 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
 
+            // Truy xuất danh sách các cuốn sách đã mua từ đơn hàng
+            List<OrderDetail> orderDetails = _unitOfWork.OrderDetail.GetAll(o => o.OrderHeaderId == id, includeProperties: "Product").ToList();
+
+            // Tạo một danh sách các tên cuốn sách
+            List<string> bookNames = orderDetails.Select(od => od.Product.Title).ToList();
+
             if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
             {
-                // This is an order by customer
+                // Xác định trạng thái thanh toán và cập nhật trạng thái đơn hàng nếu cần
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
 
@@ -196,18 +204,42 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
             _unitOfWork.Save();
 
-            // Send email notification
+            // Prepare email content
+            string emailSubject = "Xác nhận đơn hàng #" + orderHeader.Id;
+            string emailBody = $"<p>Xin chào {orderHeader.ApplicationUser.Name}," +
+                $"Đơn hàng của bạn đã được xác nhận thành công. Dưới đây là các chi tiết:" +
+                $"ID đơn hàng: {orderHeader.Id}" +
+                $"Thời gian đặt hàng: {orderHeader.OrderDate}" +
+                $"Số điện thoại liên hệ: {orderHeader.PhoneNumber}." +
+                $"Địa chỉ email: {orderHeader.ApplicationUser.Email}."+
+                $"Địa chỉ nhận hàng: {orderHeader.StreetAddress}, {orderHeader.City}, {orderHeader.State}, {orderHeader.PostalCode}" +
+                $"Các cuốn sách đã mua:";
+
+            // Thêm tên các cuốn sách vào nội dung email
+            emailBody += "";
+            foreach (var bookName in bookNames)
+            {
+                emailBody += $"{bookName}";
+            }
+            emailBody += "";
+
+            emailBody += $"Tổng tiền đơn hàng: {orderHeader.OrderTotal} VNĐ." +
+                $"Xin cảm ơn bạn đã mua hàng của chúng tôi!" +
+                $"Trân trọng,<br/>Đội ngũ hỗ trợ khách hàng của chúng tôi.";
+
+            // Gửi email thông báo
             var mailData = new MailData
             {
                 ReceiverEmail = orderHeader.ApplicationUser.Email,
                 ReceiverName = orderHeader.ApplicationUser.Name,
-                Title = "Order Confirmation",
-                Body = $"Your order with ID {orderHeader.Id} has been successfully placed."
+                Title = emailSubject,
+                Body = emailBody
             };
             _mailService.SendMail(mailData);
 
             return View(id);
         }
+
 
         public IActionResult Plus(int cartId)
         {
