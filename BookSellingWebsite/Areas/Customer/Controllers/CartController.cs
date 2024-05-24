@@ -26,8 +26,21 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
             _mailService = mailService;
         }
+        private bool IsUserInRole(string role)
+        {
+            return User.IsInRole(role);
+        }
+        private IActionResult AccessDenied()
+        {
+            return RedirectToAction("AccessDenied", "Account", new { area = "Identity" });
+        }
+
         public IActionResult Index()
         {
+            if (IsUserInRole(SD.Role_Admin) || IsUserInRole(SD.Role_Employee))
+            {
+                return AccessDenied();
+            }
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -52,6 +65,11 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         public IActionResult Summary()
         {
+            if (IsUserInRole(SD.Role_Admin) || IsUserInRole(SD.Role_Employee))
+            {
+                return AccessDenied();
+            }
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -83,6 +101,10 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         [ActionName("Summary")]
         public IActionResult SummaryPOST()
         {
+            if (IsUserInRole(SD.Role_Admin) || IsUserInRole(SD.Role_Employee))
+            {
+                return AccessDenied();
+            }
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -206,13 +228,13 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             // Prepare email content
             string emailSubject = "Xác nhận đơn hàng #" + orderHeader.Id;
-            string emailBody = $"<p>Xin chào {orderHeader.ApplicationUser.Name}," +
+            string emailBody = $"Xin chào {orderHeader.ApplicationUser.Name}." +
                 $"Đơn hàng của bạn đã được xác nhận thành công. Dưới đây là các chi tiết:" +
-                $"ID đơn hàng: {orderHeader.Id}" +
-                $"Thời gian đặt hàng: {orderHeader.OrderDate}" +
+                $"ID đơn hàng: {orderHeader.Id}." +
+                $"Thời gian đặt hàng: {orderHeader.OrderDate}." +
                 $"Số điện thoại liên hệ: {orderHeader.PhoneNumber}." +
                 $"Địa chỉ email: {orderHeader.ApplicationUser.Email}."+
-                $"Địa chỉ nhận hàng: {orderHeader.StreetAddress}, {orderHeader.City}, {orderHeader.State}, {orderHeader.PostalCode}" +
+                $".Địa chỉ nhận hàng: {orderHeader.StreetAddress}, {orderHeader.City}, {orderHeader.State}, {orderHeader.PostalCode}" +
                 $"Các cuốn sách đã mua:";
 
             // Thêm tên các cuốn sách vào nội dung email
@@ -223,9 +245,9 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             }
             emailBody += "";
 
-            emailBody += $"Tổng tiền đơn hàng: {orderHeader.OrderTotal} VNĐ." +
+            emailBody += $"Tổng tiền đơn hàng: {orderHeader.OrderTotal}$." +
                 $"Xin cảm ơn bạn đã mua hàng của chúng tôi!" +
-                $"Trân trọng,<br/>Đội ngũ hỗ trợ khách hàng của chúng tôi.";
+                $"Trân trọng, Đội ngũ hỗ trợ khách hàng của chúng tôi.";
 
             // Gửi email thông báo
             var mailData = new MailData
