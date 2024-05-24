@@ -57,7 +57,7 @@
                             </li>
                         }
 
-                        @if (User.IsInRole(SD.Role_Admin))
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,17 +70,19 @@
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
-                                    </li>
-                                    
+                                    @if (User.IsInRole(SD.Role_Admin))
+                                    {
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                         }
@@ -88,19 +90,17 @@
                         <li class="nav-item">
                             <a class="nav-link " asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
                         </li>
-                        @if (!User.IsInRole(SD.Role_Admin))
-                        {
-                            <!-- Nút tìm kiếm -->
-                            <form class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
+                        <!-- Nút tìm kiếm -->
+                        <li class="nav-item">
+                            <form id="searchForm" class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
                                 <input id="txtSearchPlaceholder" class="form-control me-2" type="search" name="searchString" style="position:absolute; background-color: transparent; color: #ccc; z-index: -1; width:100%;" disabled />
                                 <input id="txtSearch" class="form-control me-2" type="search" placeholder="Hãy nhập tên sách" aria-label="Search" name="searchString">
                                 <button class="btn btn-search" type="submit">
                                     <i class="bi bi-search"></i>
                                 </button>
                             </form>
+                        </li>
                             
-                        }
-
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
                                 @await Component.InvokeAsync("ShoppingCart")
@@ -218,6 +218,7 @@
             });
         });
     </script>
+    <!-- JavaScript để giữ trang hiện tại và ẩn các mục không cần thiết-->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('txtSearch');
@@ -304,6 +305,23 @@
             });
         });
                 });
+    </script>
+
+    <!-- JavaScript to Check the Page Path -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('txtSearch');
+
+            searchForm.addEventListener('submit', function (event) {
+                const currentPath = window.location.pathname.toLowerCase();
+                if (currentPath !== '/' && currentPath !== '/home/index') {
+                    event.preventDefault();
+                    alert('Please go to the home page to search for books.');
+                    window.location.href = '/';
+                }
+            });
+        });
     </script>
 </body>
 </html>

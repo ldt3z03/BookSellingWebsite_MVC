@@ -3,6 +3,7 @@ using BookSelling.DataAccess.Repository.IRepository;
 using BookSelling.Models;
 using BookSelling.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -18,16 +19,21 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private ApplicationDbContext _db;
+        //Sử dụng @HttpContextAccessor.HttpContext.Request.Query để lấy các giá trị của tham số hiện tại từ URL và truyền chúng vào liên kết của các nút lọc giá
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext db,IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _db = db;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> Index(string category, string searchString)
+        public async Task<IActionResult> Index(string category, string searchString, string sortOrder)
         {
+            ViewBag.PriceSortParm = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewBag.CurrentSort = sortOrder;
             IEnumerable<Product> productList;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -43,6 +49,16 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             }
 
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    productList = productList.OrderByDescending(p => p.Price100);
+                    break;
+                default:
+                    productList = productList.OrderBy(p => p.Price100);
+                    break;
+            }
+
             if (productList == null || !productList.Any())
             {
                 TempData["ErrorMessage"] = "Không tìm thấy sản phẩm.";
@@ -55,8 +71,9 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             {
                 ViewBag.Categories = categories;
             }
-
+            //Sử dụng các biến ViewBag để lưu trữ các tham số tìm kiếm hiện tại
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentCategory = category;
 
             return View(productList);
         }

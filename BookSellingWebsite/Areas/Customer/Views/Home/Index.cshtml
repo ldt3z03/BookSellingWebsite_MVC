@@ -8,6 +8,39 @@
     <title>Trang Chủ</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .filter-btn {
+            transition: background-color 0.3s, color 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+
+            .filter-btn:hover {
+                opacity: 0.8;
+            }
+
+        .btn-low-price {
+            background-color: green;
+            color: white;
+        }
+
+        .btn-high-price {
+            background-color: red;
+            color: white;
+        }
+
+        .filter-icon {
+            margin-right: 5px;
+        }
+
+        .filter-container {
+            displ   ay: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Carousel -->
@@ -109,7 +142,18 @@
     </script>
 
 
-    <div class="container">
+
+    <div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col-12 filter-container">
+                <a href="?sortOrder=Price&searchString=@ViewBag.CurrentFilter&category=@ViewBag.CurrentCategory" class="btn filter-btn btn-low-price">
+                    <i class="fas fa-sort-amount-down-alt filter-icon"></i> Giá từ thấp đến cao
+                </a>
+                <a href="?sortOrder=price_desc&searchString=@ViewBag.CurrentFilter&category=@ViewBag.CurrentCategory" class="btn filter-btn btn-high-price">
+                    <i class="fas fa-sort-amount-up-alt filter-icon"></i> Giá từ cao đến thấp
+                </a>
+            </div>
+        </div>
         <div class="row pb-3">
             @foreach (var product in Model)
             {
@@ -164,6 +208,9 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <!-- Script để lọc sản phẩm và ẩn các hiện thị không cần thiết -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var searchString = '@ViewBag.CurrentFilter';

@@ -75,7 +75,7 @@
                         <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
                     </div>
 
-                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                    @if (User.IsInRole(SD.Role_Admin))
                     {
                         <div class="form-floating mb-3 col-md-6">
                             <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
