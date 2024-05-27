@@ -1293,4 +1293,33 @@ body {
     }
 }
 
-/* details*/
+/* css loc san pham theo gia*/
+.filter-btn {
+    transition: background-color 0.3s, color 0.3s;
+    flex: 1;
+    text-align: center;
+}
+
+    .filter-btn:hover {
+        opacity: 0.8;
+    }
+
+.btn-low-price {
+    background-color: green;
+    color: white;
+}
+
+.btn-high-price {
+    background-color: red;
+    color: white;
+}
+
+.filter-icon {
+    margin-right: 5px;
+}
+
+.filter-container {
+    displ ay: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}

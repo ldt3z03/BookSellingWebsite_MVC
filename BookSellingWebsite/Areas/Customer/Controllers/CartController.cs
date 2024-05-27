@@ -5,35 +5,41 @@ using BookSelling.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
-using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using static BookSelling.Models.ViewModels.BestSellingProductsVM;
 
 namespace BookSellingWebsite.Areas.Customer.Controllers
 {
-    [Area("customer")]
+    [Area("Customer")]
     [Authorize]
-    //[Authorize(Roles = "Customer")]
-    //[Authorize(Roles = "Company")]
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
+
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
+
         public CartController(IUnitOfWork unitOfWork, IMailService mailService)
         {
             _unitOfWork = unitOfWork;
             _mailService = mailService;
         }
+
         private bool IsUserInRole(string role)
         {
             return User.IsInRole(role);
         }
+
         private IActionResult AccessDenied()
         {
             return RedirectToAction("AccessDenied", "Account", new { area = "Identity" });
         }
+
+        // Method to display the best-selling products
+
 
         public IActionResult Index()
         {
@@ -55,7 +61,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Product.ProductImages =  productImages.Where(u => u.ProductId == cart.Product.Id).ToList();
+                cart.Product.ProductImages = productImages.Where(u => u.ProductId == cart.Product.Id).ToList();
                 cart.Price = GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
@@ -161,8 +167,8 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 {
                     SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
                     CancelUrl = domain + "customer/cart/index",
-                        LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
-                        Mode = "payment",
+                    LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
+                    Mode = "payment",
                 };
 
                 foreach (var item in ShoppingCartVM.ShoppingCartList)
@@ -185,7 +191,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
 
                 var service = new Stripe.Checkout.SessionService();
-                Session session =  service.Create(options);
+                Session session = service.Create(options);
                 _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
                 _unitOfWork.Save();
                 Response.Headers.Add("Location", session.Url);
@@ -233,7 +239,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 $"ID đơn hàng: {orderHeader.Id}." +
                 $"Thời gian đặt hàng: {orderHeader.OrderDate}." +
                 $"Số điện thoại liên hệ: {orderHeader.PhoneNumber}." +
-                $"Địa chỉ email: {orderHeader.ApplicationUser.Email}."+
+                $"Địa chỉ email: {orderHeader.ApplicationUser.Email}." +
                 $".Địa chỉ nhận hàng: {orderHeader.StreetAddress}, {orderHeader.City}, {orderHeader.State}, {orderHeader.PostalCode}" +
                 $"Các cuốn sách đã mua:";
 
@@ -261,8 +267,6 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             return View(id);
         }
-
-
         public IActionResult Plus(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
@@ -274,7 +278,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId,tracked:true);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             if (cartFromDb.Count <= 1)
             {
                 //remove from cart
@@ -294,7 +298,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId,tracked:true);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
                 .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
@@ -320,6 +324,33 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 }
             }
         }
+        public IActionResult BestSellingProducts()
+        {
+            // Get products with their order details
+            var products = _unitOfWork.Product.GetAll(includeProperties: "OrderDetails");
 
+            // Calculate the total order amount for each product
+            var bestSellingProducts = products
+                .Select(p => new
+                {
+                    Product = p,
+                    OrderCount = p.OrderDetails?.Sum(od => od.Count) ?? 0,
+                    TotalSales = p.OrderDetails?.Sum(od => od.Count * od.Price) ?? 0
+                })
+                .OrderByDescending(p => p.OrderCount)
+                .ToList();
+
+            var bestSellingProductsVM = new BestSellingProductsVM
+            {
+                BestSellingProducts = bestSellingProducts.Select(b => new ProductSalesVM
+                {
+                    Product = b.Product,
+                    OrderCount = b.OrderCount,
+                    TotalSales = b.TotalSales
+                }).ToList()
+            };
+
+            return View(bestSellingProductsVM);
+        }
     }
 }

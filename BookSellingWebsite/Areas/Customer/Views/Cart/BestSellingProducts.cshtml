@@ -1,0 +1,36 @@
+﻿@model BookSelling.Models.ViewModels.BestSellingProductsVM
+
+@{
+    ViewData["Title"] = "Best Selling Products";
+}
+
+<h2>Best Selling Products</h2>
+
+@if (Model.BestSellingProducts != null && Model.BestSellingProducts.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Order Count</th>
+                <th>Total Sales</th> <!-- Add a column for total sales -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BestSellingProducts)
+            {
+                <tr>
+                    <td>@item.Product.Title</td>
+                    <td>@string.Format("{0:C}", item.Product.Price)</td>
+                    <td>@item.OrderCount</td>
+                    <td>@string.Format("{0:C}", item.TotalSales)</td> <!-- Display the total sales in currency format -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No best-selling products found.</p>
+}

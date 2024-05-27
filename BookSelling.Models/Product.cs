@@ -47,5 +47,6 @@ namespace BookSelling.Models
         public Category Category { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

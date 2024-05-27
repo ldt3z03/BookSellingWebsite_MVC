@@ -39,5 +39,24 @@ namespace BookSelling.DataAccess.Repository
                 //}
             }
         }
+
+        public IEnumerable<Product> GetBestSellingProducts(int topN)
+        {
+            var bestSellingProducts = _db.OrderDetails
+                .GroupBy(od => od.ProductId)
+                .Select(g => new
+                {
+                    ProductId = g.Key,
+                    TotalCount = g.Sum(od => (int?)od.Count) ?? 0
+                })
+                .OrderByDescending(g => g.TotalCount)
+                .Take(topN)
+                .ToList()
+                .Select(g => _db.Products.FirstOrDefault(p => p.Id == g.ProductId))
+                .Where(p => p != null)
+                .ToList();
+
+            return bestSellingProducts;
+        }
     }
 }

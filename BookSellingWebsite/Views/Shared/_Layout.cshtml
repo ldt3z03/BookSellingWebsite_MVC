@@ -86,10 +86,17 @@
                                 </ul>
                             </li>
                         }
-                        
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="Customer" asp-controller="Cart" asp-action="BestSellingProducts">Best Selling Products</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link " asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
                         </li>
+                        
                         <!-- Nút tìm kiếm -->
                         <li class="nav-item">
                             <form id="searchForm" class="d-flex search-form" asp-controller="Home" asp-action="Index" method="get">
