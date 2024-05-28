@@ -30,7 +30,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> Index(string category, string searchString, string sortOrder)
+        public async Task<IActionResult> Index(string category, string searchString, string sortOrder, decimal? minPrice, decimal? maxPrice)
         {
             ViewBag.PriceSortParm = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewBag.CurrentSort = sortOrder;
@@ -47,6 +47,16 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             else
             {
                 productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+            }
+
+            if (minPrice.HasValue)
+            {
+                productList = productList.Where(p => (decimal)p.Price100 >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                productList = productList.Where(p => (decimal)p.Price100 <= maxPrice.Value);
             }
 
             switch (sortOrder)
@@ -74,6 +84,8 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             //Sử dụng các biến ViewBag để lưu trữ các tham số tìm kiếm hiện tại
             ViewBag.CurrentFilter = searchString;
             ViewBag.CurrentCategory = category;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
 
             return View(productList);
         }

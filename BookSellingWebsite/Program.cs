@@ -48,6 +48,7 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
     options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
 
+
 });
 
 

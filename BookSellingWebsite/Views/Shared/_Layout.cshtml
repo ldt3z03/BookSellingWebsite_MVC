@@ -235,25 +235,22 @@
             const titleHot = document.getElementById('title-Hot');
             const carouselSection = document.getElementById('carouselExampleIndicators');
 
-            function hideSections() {
-                introSection.style.display = 'none';
-                statsSection.style.display = 'none';
-                titleHot.style.display = 'none';
-                carouselSection.style.display = 'none';
-            }
+            document.addEventListener("DOMContentLoaded", function () {
+                var searchString = '@ViewBag.CurrentFilter';
+                if (searchString) {
+                    document.getElementById("carouselExampleIndicators").style.display = "none";
+                    document.getElementById("title-Hot").style.display = "none";
+                    document.getElementById("intro-section").style.display = "none";
 
-            function showSections() {
-                introSection.style.display = 'block';
-                statsSection.style.display = 'flex';
-                titleHot.style.display = 'block';
-                carouselSection.style.display = 'block';
-            }
-
-            searchInput.addEventListener('input', function () {
-                if (searchInput.value.trim() !== '') {
-                    hideSections();
-                } else {
-                    showSections();
+                }
+            });
+            $(document).ready(function () {
+                var searchString = '@ViewBag.CurrentFilter';
+                if (searchString) {
+                    $('#carouselExampleIndicators').hide();
+                    $('#title-Hot').hide();
+                    $('#stats-section').hide();
+                    $('#intro-section').hide();
                 }
             });
 

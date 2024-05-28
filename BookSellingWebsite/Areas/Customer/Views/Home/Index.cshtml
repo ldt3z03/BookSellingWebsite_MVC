@@ -73,45 +73,6 @@
         </div>
     </section>
 
-
-
-    <div id="stats-section" class="w3l-stats-section stats-con mt-5 HomePageStats">
-        <div class="stats_info counter_grid ps-0">
-            <p class="counter">3500</p>
-            <h3>Factories</h3>
-        </div>
-        <div class="stats_info counter_grid">
-            <p class="counter">4360</p>
-            <h3>Projects</h3>
-        </div>
-    </div>
-    <script>
-        function startCounting(element, target) {
-            let count = 0;
-            const duration = 5000; // Thời gian (ms) để chạy từ 0 đến số cần đạt
-            const fps = 30; // Số hình ảnh trên giây
-            const step = target / Math.floor(duration / 100); // Tính bước tăng cho mỗi lần cập nhật
-
-            const timer = setInterval(() => {
-                count += step; // Tăng giá trị đếm
-                if (count >= target) {
-                    clearInterval(timer); // Dừng đếm khi đạt đến giá trị cần
-                    count = target; // Đặt giá trị cuối cùng là giá trị cần đạt
-                }
-                element.textContent = Math.floor(count); // Cập nhật giá trị hiển thị trên trang
-            }, 100);
-        }
-
-        const counters = document.querySelectorAll('.counter'); // Chọn tất cả các phần tử có class 'counter'
-
-        counters.forEach(counter => {
-            const target = parseInt(counter.textContent); // Lấy giá trị cần đạt từ nội dung của phần tử
-            startCounting(counter, target); // Bắt đầu đếm từ 0 đến giá trị cần đạt
-        });
-    </script>
-
-
-
     <div class="container mt-4">
         <div class="row mb-3">
             <div class="col-12 filter-container">
@@ -123,6 +84,22 @@
                 </a>
             </div>
         </div>
+        <form method="post" action="">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="minPrice" class="form-label">Giá tối thiểu</label>
+                    <input type="number" class="form-control" id="minPrice" name="minPrice" value="@ViewBag.MinPrice" />
+                </div>
+                <div class="col-md-3">
+                    <label for="maxPrice" class="form-label">Giá tối đa</label>
+                    <input type="number" class="form-control" id="maxPrice" name="maxPrice" value="@ViewBag.MaxPrice" />
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-primary">Lọc</button>
+                </div>
+            </div>
+        </form>
+
         <div class="row pb-3">
             @foreach (var product in Model)
             {
@@ -178,20 +155,6 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-
-    <!-- Script để lọc sản phẩm và ẩn các hiện thị không cần thiết -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var searchString = '@ViewBag.CurrentFilter';
-            if (searchString) {
-                document.getElementById("carouselExampleIndicators").style.display = "none";
-                document.getElementById("title-Hot").style.display = "none";
-                document.getElementById("stats-section").style.display = "none";
-                document.getElementById("intro-section").style.display = "none";
-
-            }
-        });
-    </script>
 </body>
 </html>
 
