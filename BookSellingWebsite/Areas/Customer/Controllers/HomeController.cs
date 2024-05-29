@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace BookSellingWebsite.Areas.Customer.Controllers
 {
@@ -30,10 +32,11 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> Index(string category, string searchString, string sortOrder, decimal? minPrice, decimal? maxPrice)
+        public async Task<IActionResult> Index(string category, string searchString, string sortOrder, decimal? minPrice, decimal? maxPrice, int? page)
         {
             ViewBag.PriceSortParm = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewBag.CurrentSort = sortOrder;
+
             IEnumerable<Product> productList;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -81,13 +84,16 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             {
                 ViewBag.Categories = categories;
             }
+            // Phân trang
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
             //Sử dụng các biến ViewBag để lưu trữ các tham số tìm kiếm hiện tại
             ViewBag.CurrentFilter = searchString;
             ViewBag.CurrentCategory = category;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
 
-            return View(productList);
+            return View(productList.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult Details(int productId)
