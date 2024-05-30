@@ -85,7 +85,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 ViewBag.Categories = categories;
             }
             // Phân trang
-            int pageSize = 5;
+            int pageSize = 12;
             int pageNumber = page ?? 1;
             //Sử dụng các biến ViewBag để lưu trữ các tham số tìm kiếm hiện tại
             ViewBag.CurrentFilter = searchString;

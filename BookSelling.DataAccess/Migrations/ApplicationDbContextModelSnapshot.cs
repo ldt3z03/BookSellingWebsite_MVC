@@ -651,7 +651,7 @@ namespace BookSelling.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("BookSelling.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -775,6 +775,8 @@ namespace BookSelling.DataAccess.Migrations
 
             modelBuilder.Entity("BookSelling.Models.Product", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618

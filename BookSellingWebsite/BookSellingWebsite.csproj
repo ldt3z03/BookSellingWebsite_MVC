@@ -29,4 +29,8 @@
     <ProjectReference Include="..\BookSelling.DataAccess\BookSelling.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\SachIT\" />
+  </ItemGroup>
+
 </Project>
