@@ -50,7 +50,7 @@
         .testimonials-container {
             display: flex;
             max-width: 1200px;
-            margin: 50px auto;
+            margin: 160px auto;
             height: 400px;
         }
 
@@ -127,7 +127,16 @@
                 color: #888;
                 font-size: 14px;
             }
+    </style>
+    <style>
+        .product-card {
+            /* CSS hiện tại của sản phẩm */
+            transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển động */
+        }
 
+            .product-card.hovered {
+                transform: translateY(-10px); /* Di chuyển sản phẩm lên khi hover */
+            }
     </style>
 </head>
 <body>
@@ -163,7 +172,7 @@
     <div id="title-Hot" class="text-center">
         <p class="test">Chào mừng tới Website TTP SELLS BOOKS</p>
     </div>
-
+	
 
     <section id="intro-section" class="w3l-passion-mid-sec home-phny py-5">
         <div class="container py-md-5 py-3">
@@ -369,6 +378,7 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>
 
@@ -407,6 +417,19 @@
         }
 
         requestAnimationFrame(scrollTestimonials);
+    });
+</script>
+<!-- jQuery -->
+<script>
+    $(document).ready(function () {
+        $(".product-card").hover(
+            function () {
+                $(this).addClass('hovered'); // Thêm lớp khi hover
+            },
+            function () {
+                $(this).removeClass('hovered'); // Xóa lớp khi hover ra
+            }
+        );
     });
 </script>
 

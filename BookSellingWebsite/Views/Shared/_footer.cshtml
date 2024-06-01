@@ -115,14 +115,6 @@
                                         <li><a href="/Identity/Account/Login">Đăng nhập vào tài khoản</a></li>
                                         <li><a href="/Identity/Account/Register">Đăng ký tài khoản mới</a></li>
                                     </ul>
-                                    <script>
-                                        $jq(window).on('myInfo_loaded', function () {
-                                            if (fhs_account.isLoggined()) {
-                                                $jq('.footer-section .login_link').parent().append('<li><a href="https://www.fahasa.com//tryout/seriesbook/">Sách theo bộ</a></li>');
-                                                $jq('.footer-section .login_link').remove();
-                                            }
-                                        });
-                                    </script>
                                 </div>
                             </div>
                         </div>
