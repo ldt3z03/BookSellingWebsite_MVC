@@ -1008,7 +1008,7 @@ body.darkmode .navbar .dropdown-item {
 
 /* button top up */
 .btn-scroll-top.show {
-    right: 1.25rem;
+    right: 50rem;
     opacity: 1;
 }
 
@@ -1275,7 +1275,3 @@ a {
     gap: 10px;
     margin-bottom: 20px;
 }
-
-
-
-

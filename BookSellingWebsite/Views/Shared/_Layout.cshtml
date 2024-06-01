@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 </head>
 <body>
+    
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-transparent border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -144,11 +146,12 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tiny.cloud/1/km6e95sweey8z5mgqh1kgagpaebcjmmquxu12u2yvvi3uc8s/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script><!-- Notification for layout -->
     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
     @* <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script><!-- Sound for layout -->
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
@@ -327,6 +330,27 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            // Call function to show product notification
+            showProductNotification();
+
+            // Function to show product notification
+            function showProductNotification() {
+                // Show notification
+                toastr.info('Sản phẩm nổi bật ngày hôm nay: Lập trình C++ dành cho người mới học ');
+                toastr.warning('Số lượng sản phẩm trong giỏ hàng đang cạn.');
+                // toastr.success('Đã thêm sản phẩm vào giỏ hàng thành công.');
+                // toastr.error('Đã xảy ra lỗi khi thực hiện thao tác.');
+                // toastr.info('Thông báo: Bạn đã nhận được một tin nhắn mới.');
+                // Set timeout to hide the notification after 5 seconds (5000 milliseconds)
+                setTimeout(function () {
+                    toastr.clear(); // Clear the toastr notification
+                }, 5000);
+            }
+        });
+    </script>
+
 </body>
 </html>
 

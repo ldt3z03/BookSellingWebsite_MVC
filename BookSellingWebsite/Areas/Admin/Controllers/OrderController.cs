@@ -129,42 +129,48 @@ namespace BookSellingWebsite.Areas.Admin.Controllers
 
         [ActionName("Details")]
         [HttpPost]
-        public IActionResult Details_PAY_NOW() 
+        public IActionResult Details_PAY_NOW()
         {
             OrderVM.OrderHeader = _unitOfWork.OrderHeader
-                .Get(u => u.Id == OrderVM.OrderHeader.Id, includeProperties:"ApplicationUser");
+                .Get(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: "ApplicationUser");
             OrderVM.OrderDetail = _unitOfWork.OrderDetail
                 .GetAll(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
-            //it is a regular customer account and need a capture payment
-            //stripe logic
             var domain = "https://localhost:44353/";
-            var options = new Stripe.Checkout.SessionCreateOptions
-            {
-                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
-                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
-                LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
-                Mode = "payment",
-            };
+            var lineItems = new List<Stripe.Checkout.SessionLineItemOptions>();
 
             foreach (var item in OrderVM.OrderDetail)
             {
-                var sessionLineItem = new SessionLineItemOptions
+                var sessionLineItem = new Stripe.Checkout.SessionLineItemOptions
                 {
-                    PriceData = new SessionLineItemPriceDataOptions
+                    PriceData = new Stripe.Checkout.SessionLineItemPriceDataOptions
                     {
                         UnitAmount = (long)(item.Price * 100), // $20.5 => 2050
                         Currency = "usd",
-                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
                         {
                             Name = item.Product.Title
                         }
                     },
                     Quantity = item.Count
                 };
-                options.LineItems.Add(sessionLineItem);
+                lineItems.Add(sessionLineItem);
             }
 
+            if (lineItems.Count == 0)
+            {
+                // Handle the case where there are no line items
+                // For example, return an error response or show a message to the user
+                return BadRequest("No items to purchase.");
+            }
+
+            var options = new Stripe.Checkout.SessionCreateOptions
+            {
+                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
+                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
+                LineItems = lineItems,
+                Mode = "payment",
+            };
 
             var service = new Stripe.Checkout.SessionService();
             Session session = service.Create(options);
