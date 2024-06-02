@@ -88,6 +88,12 @@
                             <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
                                 <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
                             </div>
+                            @if (Model.Product.IsFlashSale)
+                            {
+                                <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
+                                    <div class="text-dark text-opacity-50 fw-semibold">Flash Sale</div>
+                                </div>
+                            }
                             <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
                                 <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
                             </div>
@@ -97,11 +103,18 @@
                             <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
                                 <div class="text-dark text-opacity-50 fw-semibold">100+</div>
                             </div>
+                            
                         </div>
                         <div class="row text-center ps-2">
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
                                 <div>Price</div>
                             </div>
+                            @if (Model.Product.IsFlashSale)
+                            {
+                                <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
+                                    <div>@Model.Product.FlashSalePrice</div>
+                                </div>
+                            }
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
                                 <div>@Model.Product.Price.ToString("c")</div>
                             </div>
@@ -111,6 +124,7 @@
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
                                 <div>@Model.Product.Price100.ToString("c")</div>
                             </div>
+                            
                         </div>
                         <div class="row pl-2 my-3">
                             <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>

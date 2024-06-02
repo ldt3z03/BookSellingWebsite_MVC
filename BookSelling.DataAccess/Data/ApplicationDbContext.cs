@@ -134,6 +134,9 @@ namespace BookSelling.DataAccess.Data
                     CategoryId = 3
                 }
                 );
+            modelBuilder.Entity<Product>()
+       .Property(p => p.FlashSalePrice)
+       .HasColumnType("decimal(18,2)");
         }
     }
 }

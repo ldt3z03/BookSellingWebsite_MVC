@@ -746,7 +746,8 @@ html {
 .navbar {
     background-color: transparent !important;
     box-shadow: none !important; /* Loại bỏ box shadow */
-    border-bottom: none !important; /* Loại bỏ border bottom nếu có */
+    border-bottom: none !important;
+    display: flex !important /* Loại bỏ border bottom nếu có */
 }
 
     /* Chế độ sáng (mặc định) */
@@ -945,8 +946,37 @@ body.darkmode .navbar .dropdown-item {
     Ensure the image fits within the container without being cropped
 }
 
+
+
 .product-card {
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển động */
+}
+    .product-card.hovered {
+        transform: translateY(-10px); /* Di chuyển sản phẩm lên khi hover */
+    }
+
+.product-image {
+    flex: 2; /* Chiếm 2/3 chiều cao thẻ */
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-details p {
+    margin: 5px 0;
+}
+.btn-details {
+    margin-top: 10px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
 }
 
 .product-card-title {
@@ -1275,3 +1305,176 @@ a {
     gap: 10px;
     margin-bottom: 20px;
 }
+
+
+/* CSS CHO FLASH SALE */
+
+.flash-sale-title {
+    font-size: 36px; /* Kích thước tiêu đề lớn hơn */
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px; /* Khoảng cách dưới tiêu đề */
+    text-transform: uppercase; /* Chuyển đổi về chữ in hoa */
+}
+
+
+.flash-sale-card {
+    border-color: #ff0000; /* Màu đỏ để nổi bật flash sale */
+    position: relative;
+}
+
+    .flash-sale-card::before {
+        content: "Flash Sale";
+        color: white;
+        background-color: #ff0000;
+        font-weight: bold;
+        padding: 5px 10px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border-radius: 5px;
+        z-index: 10;
+    }
+
+/* CSS cho bộ đếm giờ */
+#flashSaleTimer {
+    font-size: 28px;
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+}
+/* Thêm hiệu ứng casual cho sản phẩm flash sale */
+.product-card.flash-sale {
+    transition: transform 0.5s ease-in-out;
+    transform: scale(1); /* Đảm bảo transform mặc định */
+}
+
+    .product-card.flash-sale:hover {
+        transform: scale(1.05);
+    }
+.product-card {
+    /* CSS hiện tại của sản phẩm */
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển động */
+}
+
+    .product-card.hovered {
+        transform: translateY(-10px); /* Di chuyển sản phẩm lên khi hover */
+    }
+
+
+
+
+/* CSS COMMENT CUSTOMER*/
+.testimonials-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 160px auto;
+    height: 400px;
+}
+
+.title-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.testimonials-button {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.testimonials-section {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.testimonials-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.testimonial {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.testimonial-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .customer-info img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .customer-info strong {
+        display: block;
+    }
+
+    .customer-info span {
+        color: #888;
+        font-size: 14px;
+    }
+
+
+/* CSS FOR EDIT TIMEOUT */
+/*.btn-outline-light {*/
+    /* CSS cho button outline với background màu sáng */
+    /*color: red;
+    background-color: transparent;
+    border-color: white;
+}
+
+    .btn-outline-light:hover {*/
+        /* CSS khi hover */
+        /*color:red !important;
+        background-color: white;
+        border-color: black;
+    }
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.text-white {
+    color: black !important;
+}
+
+.me-2 {
+    margin-right: 0.5rem;*/ /* Điều chỉnh khoảng cách bên phải */
+/*}*/

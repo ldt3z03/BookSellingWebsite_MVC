@@ -47,6 +47,10 @@ namespace BookSelling.Models
         public Category Category { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
+        public bool IsFlashSale { get; set; }
+        public decimal? FlashSalePrice { get; set; } // Giá khuyến mãi
+        public DateTime? FlashSaleStart { get; set; } // Thời gian bắt đầu
+        public DateTime? FlashSaleEnd { get; set; } // Thời gian kết thúc Flash Sale
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

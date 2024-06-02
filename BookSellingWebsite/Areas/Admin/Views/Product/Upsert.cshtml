@@ -76,6 +76,26 @@
                             <label asp-for="Product.ProductImages" class="ms-2"></label>
                         </div>
 
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Product.IsFlashSale" type="checkbox" class="form-check-input border-0 shadow" />
+                            <label asp-for="Product.IsFlashSale" class="ms-2"></label>
+                        </div>
+
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Product.FlashSalePrice" class="form-control border-0 shadow" />
+                            <label asp-for="Product.FlashSalePrice" class="ms-2"></label>
+                            <span asp-validation-for="Product.FlashSalePrice" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="FlashSaleStart" class="form-control border-0 shadow" />
+                            <label asp-for="FlashSaleStart" class="ms-2">Flash Sale Start</label>
+                            <span asp-validation-for="FlashSaleStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="FlashSaleEnd" class="form-control border-0 shadow" />
+                            <label asp-for="FlashSaleEnd" class="ms-2">Flash Sale End</label>
+                            <span asp-validation-for="FlashSaleEnd" class="text-danger"></span>
+                        </div>
                         <div class="row pt-2">
                             <div class="col-6 col-md-3">
                                 @if (Model.Product.Id != 0)

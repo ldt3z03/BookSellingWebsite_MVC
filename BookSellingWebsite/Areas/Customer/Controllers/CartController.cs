@@ -308,6 +308,10 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {
+            if (shoppingCart.Product.FlashSalePrice.HasValue && shoppingCart.Product.FlashSalePrice > 0)
+            {
+                return (double)shoppingCart.Product.FlashSalePrice.Value;
+            }
             if (shoppingCart.Count <= 50)
             {
                 return shoppingCart.Product.Price;

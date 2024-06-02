@@ -84,6 +84,11 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             {
                 ViewBag.Categories = categories;
             }
+            // Lấy các sản phẩm flash sale
+            var flashSaleProducts = _unitOfWork.Product.GetFlashSaleProducts();
+            // Lọc ra các sản phẩm thông thường
+            var regularProducts = productList.Where(p => !flashSaleProducts.Contains(p)).ToList();
+
             // Phân trang
             int pageSize = 12;
             int pageNumber = page ?? 1;
@@ -92,6 +97,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             ViewBag.CurrentCategory = category;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
+            ViewBag.FlashSaleProducts = flashSaleProducts;
 
             return View(productList.ToPagedList(pageNumber, pageSize));
         }
@@ -110,7 +116,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 Product = product,
                 Count = 1,
                 ProductId = productId
-            };
+            };  
 
             return View(cart);
         }
@@ -164,6 +170,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             return Json(Result);
         }
 
+
         public IActionResult Privacy()
         {
             return View();
@@ -216,5 +223,6 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
         {
             return View();
         }
+
     }
 }
