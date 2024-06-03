@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace BookSelling.Models.ViewModels
 {
@@ -15,6 +16,8 @@ namespace BookSelling.Models.ViewModels
 
     public class BestSellingProductsVM
     {
-        public List<ProductSalesVM> BestSellingProducts { get; set; }
+        public IPagedList<ProductSalesVM> BestSellingProducts { get; set; }
+
+
     }
 }

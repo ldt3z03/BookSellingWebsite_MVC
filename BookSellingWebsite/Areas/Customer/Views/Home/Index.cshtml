@@ -13,17 +13,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    @{
+        // Sắp xếp mô hình theo một giá trị ngẫu nhiên
+        var random = new Random();
+        var shuffledModel = Model.OrderBy(x => random.Next()).ToList();
+    }
     <!-- Carousel -->
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @for (int i = 0; i < shuffledModel.Count && i < 5; i++) // Lặp qua số lượng sản phẩm mong muốn hoặc số lượng sản phẩm trong mô hình nếu nhỏ hơn 5
+            {
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@((i == 0) ? "active" : "")" aria-current="@((i == 0) ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+            }
         </div>
         <div class="carousel-inner">
-            @foreach (var product in Model.Take(3)) // Lấy ba sản phẩm đầu tiên cho băng truyền
+            @foreach (var product in shuffledModel.Take(5)) // Lấy năm sản phẩm đầu tiên (ngẫu nhiên) cho băng truyền
             {
-                <div class="carousel-item @(product == Model.First() ? "active" : "")">
+                <div class="carousel-item @(product == shuffledModel.First() ? "active" : "")">
                     <a asp-action="Details" asp-route-productId="@product.Id">
                         <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "https://via.placeholder.com/500")" class="d-block w-100" alt="Image @product.Title">
                     </a>
@@ -39,8 +45,8 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-
     </div>
+
     <!-- Tiêu đề phía dưới carousel -->
     <div id="title-Hot" class="text-center">
         <p class="test">Chào mừng tới Website TTP SELLS BOOKS</p>
@@ -406,7 +412,7 @@
         }
 
     // Thời gian kết thúc của Flash Sale (thay thế với thời gian thực tế từ dữ liệu của bạn)
-    var endTime = new Date("Jun 3, 2024 01:7:00").getTime();
+    var endTime = new Date("Jun 4, 2024 01:7:00").getTime();
 
     // Cập nhật thời gian còn lại mỗi 1 giây
     var x = setInterval(function() {

@@ -32,7 +32,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> Index(string category, string searchString, string sortOrder, decimal? minPrice, decimal? maxPrice, int? page)
+        public async Task<IActionResult> Index(string category, string searchString, string sortOrder, decimal? minPrice, decimal? maxPrice, string author ,int? page)
         {
             ViewBag.PriceSortParm = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewBag.CurrentSort = sortOrder;
@@ -46,6 +46,10 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             else if (!string.IsNullOrEmpty(category))
             {
                 productList = _unitOfWork.Product.GetAll(p => p.Category.Name == category, includeProperties: "Category,ProductImages");
+            }
+            else if (!string.IsNullOrEmpty(author)) // Thêm điều kiện lọc theo tác giả
+            {
+                productList = _unitOfWork.Product.GetAll(p => p.Author.Contains(author), includeProperties: "Category,ProductImages");
             }
             else
             {

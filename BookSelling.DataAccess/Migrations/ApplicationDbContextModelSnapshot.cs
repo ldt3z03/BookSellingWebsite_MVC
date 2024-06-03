@@ -279,6 +279,9 @@ namespace BookSelling.DataAccess.Migrations
                     b.Property<double>("Price50")
                         .HasColumnType("float");
 
+                    b.Property<int>("QuantitySold")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -302,6 +305,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
+                            QuantitySold = 0,
                             Title = "Fortune of Time"
                         },
                         new
@@ -316,6 +320,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 30.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
+                            QuantitySold = 0,
                             Title = "Dark Skies"
                         },
                         new
@@ -330,6 +335,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 50.0,
                             Price100 = 35.0,
                             Price50 = 40.0,
+                            QuantitySold = 0,
                             Title = "Vanish in the Sunset"
                         },
                         new
@@ -344,6 +350,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 65.0,
                             Price100 = 55.0,
                             Price50 = 60.0,
+                            QuantitySold = 0,
                             Title = "Cotton Candy"
                         },
                         new
@@ -358,6 +365,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 27.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
+                            QuantitySold = 0,
                             Title = "Rock in the Ocean"
                         },
                         new
@@ -372,6 +380,7 @@ namespace BookSelling.DataAccess.Migrations
                             Price = 23.0,
                             Price100 = 20.0,
                             Price50 = 22.0,
+                            QuantitySold = 0,
                             Title = "Leaves and Wonders"
                         });
                 });
@@ -669,7 +678,7 @@ namespace BookSelling.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("BookSelling.Models.Product", "Product")
-                        .WithMany("OrderDetails")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -793,8 +802,6 @@ namespace BookSelling.DataAccess.Migrations
 
             modelBuilder.Entity("BookSelling.Models.Product", b =>
                 {
-                    b.Navigation("OrderDetails");
-
                     b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618

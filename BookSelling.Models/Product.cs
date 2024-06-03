@@ -20,11 +20,11 @@ namespace BookSelling.Models
         [Required]
         public string ISBN { get; set; }
         [Required]
-        public string Author {  get; set; }
+        public string Author { get; set; }
 
         [Required]
-        [Display(Name ="List Price")]
-        [Range(1,1000)]
+        [Display(Name = "List Price")]
+        [Range(1, 1000)]
         public double ListPrice { get; set; }
 
         [Required]
@@ -51,6 +51,6 @@ namespace BookSelling.Models
         public decimal? FlashSalePrice { get; set; } // Giá khuyến mãi
         public DateTime? FlashSaleStart { get; set; } // Thời gian bắt đầu
         public DateTime? FlashSaleEnd { get; set; } // Thời gian kết thúc Flash Sale
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        //public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

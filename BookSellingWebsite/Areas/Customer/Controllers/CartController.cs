@@ -8,7 +8,9 @@ using Stripe.Checkout;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using X.PagedList;
 using static BookSelling.Models.ViewModels.BestSellingProductsVM;
+
 
 namespace BookSellingWebsite.Areas.Customer.Controllers
 {
@@ -328,30 +330,35 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                 }
             }
         }
-        public IActionResult BestSellingProducts()
+        public IActionResult BestSellingProducts(int? page)
         {
-            // Get products with their order details
-            var products = _unitOfWork.Product.GetAll(includeProperties: "OrderDetails");
+            int pageSize = 10; // Số lượng sản phẩm trên mỗi trang
+            int pageNumber = page ?? 1;
 
-            // Calculate the total order amount for each product
+            // Lấy danh sách sản phẩm
+            var products = _unitOfWork.Product.GetAll();
+
+            // Tính toán số lượng đặt hàng và tổng doanh số bán hàng cho mỗi sản phẩm
             var bestSellingProducts = products
                 .Select(p => new
                 {
                     Product = p,
-                    OrderCount = p.OrderDetails?.Sum(od => od.Count) ?? 0,
-                    TotalSales = p.OrderDetails?.Sum(od => od.Count * od.Price) ?? 0
+                    OrderCount = _unitOfWork.OrderDetail.GetAll(od => od.ProductId == p.Id).Sum(od => od.Count),
+                    TotalSales = _unitOfWork.OrderDetail.GetAll(od => od.ProductId == p.Id).Sum(od => od.Count * od.Price)
                 })
                 .OrderByDescending(p => p.OrderCount)
                 .ToList();
 
+            // Tạo ViewModel để hiển thị
             var bestSellingProductsVM = new BestSellingProductsVM
             {
-                BestSellingProducts = bestSellingProducts.Select(b => new ProductSalesVM
-                {
-                    Product = b.Product,
-                    OrderCount = b.OrderCount,
-                    TotalSales = b.TotalSales
-                }).ToList()
+                BestSellingProducts = bestSellingProducts
+                    .Select(b => new ProductSalesVM
+                    {
+                        Product = b.Product,
+                        OrderCount = b.OrderCount,
+                        TotalSales = b.TotalSales
+                    }).ToPagedList(pageNumber, pageSize)
             };
 
             return View(bestSellingProductsVM);

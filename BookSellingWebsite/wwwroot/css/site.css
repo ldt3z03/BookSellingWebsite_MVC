@@ -1036,101 +1036,52 @@ body.darkmode .navbar .dropdown-item {
 }
 
 
-/* button top up */
-.btn-scroll-top.show {
-    right: 50rem;
-    opacity: 1;
-}
-
+/* Định dạng chung cho nút cuộn lên */
 .btn-scroll-top {
-    display: block;
-    position: fixed;
-    right: -4.125rem;
-    bottom: 1.25rem;
-    width: 2.75rem;
-    height: 2.75rem;
-    transition: right 400ms cubic-bezier(.68,-.55,.265,1.55), opacity 0.3s, background-color 0.25s ease-in-out;
-    border-radius: 50%;
-    background-color: rgba(43, 52, 69, .25);
-    color: #fff;
-    text-align: center;
-    opacity: 0;
-    z-index: 1025;
+    position: fixed; /* Giữ cố định vị trí của nút khi cuộn trang */
+    bottom: 20px; /* Cách đáy trang 20px */
+    left: 50%; /* Canh giữa trang */
+    transform: translateX(-50%); /* Điều chỉnh để canh giữa hoàn toàn */
+    background-color: Moccasin; /* Màu nền SpringGreen */
+    color: white; /* Màu chữ */
+    padding: 10px; /* Khoảng cách bên trong nút */
+    border-radius: 50%; /* Bo tròn nút */
+    text-align: center; /* Canh giữa nội dung bên trong nút */
+    display: flex; /* Hiển thị flexbox */
+    align-items: center; /* Canh giữa theo chiều dọc */
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    cursor: pointer; /* Con trỏ dạng tay chỉ */
+    z-index: 1000; /* Hiển thị nút lên trên các phần tử khác */
+    text-decoration: none; /* Loại bỏ gạch chân mặc định của thẻ <a> */
+    opacity: 0.3; /* Mờ nút khi không dùng */
+    transition: opacity 0.5s, background-color 0.5s; /* Chuyển đổi mượt mà */
 }
 
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-    word-break: break-word;
-}
-
-    *, *::before, *::after {
-        box-sizing: border-box;
-    }
-
-.btn-scroll-top .btn-scroll-top-tooltip {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    transform: translateY(-50%);
-    transition: opacity .25s ease-in-out, visibility .25s ease-in-out;
-    visibility: hidden;
-    opacity: 0;
-    word-break: normal;
-}
-
-.font-size-sm {
-    font-size: 0.875rem !important;
-}
-
-.text-muted {
-    color: #7d879c !important;
-}
-
-.mr-2, .mx-2 {
-    margin-right: 0.5rem !important;
-}
-
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-    word-break: break-word;
-}
-
-    *, *::before, *::after {
-        box-sizing: border-box;
-    }
-
-
-.btn-scroll-top {
-    /* Đảm bảo rằng button có position là fixed để hiển thị ở cố định trên màn hình */
-    position: fixed;
-    bottom: 40px; /* Điều chỉnh khoảng cách từ bottom */
-    right: 40px; /* Điều chỉnh vị trí từ right */
-    z-index: 9999;
-    /* Thêm các thuộc tính khác tùy theo thiết kế của bạn */
-}
-
-    /* Hiệu ứng mượt khi hover */
     .btn-scroll-top:hover {
-        transform: translateX(10px); /* Di chuyển nút sang phải 10px */
-        transition: transform 0.3s ease; /* Hiệu ứng di chuyển mềm mại trong 0.3s */
+        opacity: 1; /* Hiển thị rõ nút khi hover */
+        background-color: SpringGreen; /* Màu nền khi hover (trong chế độ sáng) */
     }
+
+    /* Hiển thị rõ nút khi cuộn xuống */
+    .btn-scroll-top.show {
+        opacity: 1;
+    }
+
+.btn-scroll-top-icon {
+    font-size: 20px; /* Kích thước biểu tượng */
+    line-height: 1; /* Chiều cao dòng */
+}
+
+/* Định dạng cho chế độ dark-mode */
+body.darkmode .btn-scroll-top {
+    background-color: Cyan; /* Màu nền Cyan cho chế độ dark-mode */
+}
+
+    body.darkmode .btn-scroll-top:hover {
+        background-color: Cyan; /* Màu nền Cyan khi hover trong chế độ dark-mode */
+    }
+
+
 
 
 
@@ -1140,7 +1091,7 @@ html * {
 }
 
 
-
+/* css cho comment*/
 .section.main {
     display: flex;
     flex-direction: column;

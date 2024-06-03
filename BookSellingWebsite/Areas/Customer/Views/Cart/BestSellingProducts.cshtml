@@ -1,9 +1,12 @@
 ﻿@model BookSelling.Models.ViewModels.BestSellingProductsVM
-
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Best Selling Products";
 }
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 <style>
     /* Style for the table */
@@ -11,6 +14,7 @@
         width: 100%;
         border-collapse: collapse;
         background-color: blue;
+        border-radius: 10px;
     }
 
         /* Style for table header */
@@ -33,8 +37,17 @@
             background-color: #f9f9f9;
         }
 </style>
+<style>
+    .best-selling-products:hover {
+        color: #dc3545; /* Thay đổi màu chữ khi di chuột qua */
+        transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi màu */
+    }
+</style>
 
-<h2 style="text-align: center;">Best Selling Products</h2>
+<h2 style="text-align: center; color: #007bff;">
+    <i class="bi bi-star-fill" style="color: #ffc107;"></i> Best Selling Products
+</h2>
+
 
 @if (Model.BestSellingProducts != null && Model.BestSellingProducts.Any())
 {
@@ -59,6 +72,16 @@
             }
         </tbody>
     </table>
+
+    <div>
+        @Html.PagedListPager(Model.BestSellingProducts, page => Url.Action("BestSellingProducts", new{page}),
+                new PagedListRenderOptions
+    {
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        UlElementClasses = new[] { "pagination" }
+    })
+    </div>
 }
 else
 {
