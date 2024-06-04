@@ -69,18 +69,22 @@
                                     <i class="bi bi-layout-text-window-reverse"></i>Content Management
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">
-                                            <i class="bi bi-archive"></i>Category
-                                        </a>
-                                    </li>
+                                    
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">
                                             <i class="bi bi-bag-check"></i>Product
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Voucher" asp-action="Index">Voucher</a>
+                                    </li>
                                     @if (User.IsInRole(SD.Role_Admin))
                                     {
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">
+                                                <i class="bi bi-archive"></i>Category
+                                            </a>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">
                                                 <i class="bi bi-building"></i>Company
@@ -360,29 +364,6 @@
             });
         });
     </script>
-
-    <!-- notification -->
-    <script>
-        $(document).ready(function () {
-            // Call function to show product notification
-            showProductNotification();
-
-            // Function to show product notification
-            function showProductNotification() {
-                // Show notification
-                toastr.info('Sản phẩm nổi bật ngày hôm nay: Lập trình C++ dành cho người mới học ');
-                // toastr.warning('Số lượng sản phẩm trong giỏ hàng đang cạn.');
-                // toastr.success('Đã thêm sản phẩm vào giỏ hàng thành công.');
-                // toastr.error('Đã xảy ra lỗi khi thực hiện thao tác.');
-                // toastr.info('Thông báo: Bạn đã nhận được một tin nhắn mới.');
-                // Set timeout to hide the notification after 5 seconds (5000 milliseconds)
-                setTimeout(function () {
-                    toastr.clear(); // Clear the toastr notification
-                }, 5000);
-            }
-        });
-    </script>
-
 </body>
 </html>
 

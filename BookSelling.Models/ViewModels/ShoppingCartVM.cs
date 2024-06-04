@@ -10,5 +10,7 @@ namespace BookSelling.Models.ViewModels
     {
         public IEnumerable<ShoppingCart> ShoppingCartList { get; set; }
         public OrderHeader OrderHeader { get; set; }
+        public IEnumerable<Voucher> Vouchers { get; set; }
+
     }
 }

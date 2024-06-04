@@ -13,6 +13,8 @@ namespace BookSelling.DataAccess.Repository
         private ApplicationDbContext _db;
         public ICategoryRepository Category{ get; private set; }
         public IProductRepository Product { get; private set; }
+        public IVoucherRepository Voucher { get; private set; }
+
         public ICompanyRepository Company { get; private set; }
         public IShoppingCartRepository ShoppingCart { get; private set; }
         public IApplicationUserRepository ApplicationUser { get; private set; }
@@ -30,6 +32,8 @@ namespace BookSelling.DataAccess.Repository
             Company = new CompanyRepository(_db);
             OrderHeader = new OrderHeaderRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
+            Voucher = new VoucherRepository(_db);
+
         }
         public void Save()
         {

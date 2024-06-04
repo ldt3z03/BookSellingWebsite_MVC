@@ -54,9 +54,9 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
-                includeProperties: "Product"),
-                OrderHeader = new()
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product"),
+                OrderHeader = new(),
+                Vouchers = _unitOfWork.Voucher.GetAll(v => v.ExpiryDate > DateTime.Now).ToList()
             };
 
             IEnumerable<ProductImage> productImages = _unitOfWork.ProductImage.GetAll();
@@ -83,9 +83,9 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
-                includeProperties: "Product"),
-                OrderHeader = new()
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product"),
+                OrderHeader = new(),
+                Vouchers = _unitOfWork.Voucher.GetAll(v => v.ExpiryDate > DateTime.Now).ToList() // Retrieve available vouchers
             };
 
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
@@ -107,12 +107,13 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
         [HttpPost]
         [ActionName("Summary")]
-        public IActionResult SummaryPOST()
+        public IActionResult SummaryPOST(string SelectedVoucher)
         {
             if (IsUserInRole(SD.Role_Admin) || IsUserInRole(SD.Role_Employee))
             {
                 return AccessDenied();
             }
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -124,22 +125,43 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
+            double orderTotal = 0;
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPriceBasedOnQuantity(cart);
-                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                orderTotal += cart.Price * cart.Count;
+            }
+
+            ShoppingCartVM.OrderHeader.OrderTotal = orderTotal;
+
+            // Log the order total before applying the voucher
+            Console.WriteLine("Order Total before applying voucher: " + orderTotal);
+
+            // Apply voucher discount if selected
+            if (!string.IsNullOrEmpty(SelectedVoucher))
+            {
+                var voucher = _unitOfWork.Voucher.Get(v => v.Code == SelectedVoucher);
+                if (voucher != null)
+                {
+                    double discountAmount = (orderTotal * (double)voucher.DiscountAmount) / 100;
+                    ShoppingCartVM.OrderHeader.OrderTotal = ShoppingCartVM.OrderHeader.OrderTotal - discountAmount;
+
+                    // Log the discount amount and the new order total
+                    Console.WriteLine("Discount Amount: " + discountAmount);
+                    Console.WriteLine("Order Total after applying voucher: " + ShoppingCartVM.OrderHeader.OrderTotal);
+                }
             }
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                //it is a regular customer 
+                // Regular customer
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
                 ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
             }
             else
             {
-                //it is a company user
+                // Company customer
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
                 ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
             }
@@ -162,8 +184,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                //it is a regular customer account and need a capture payment
-                //stripe logic
+                // Regular customer, needs to complete payment
                 var domain = "https://localhost:44353/";
                 var options = new Stripe.Checkout.SessionCreateOptions
                 {
@@ -173,15 +194,20 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                     Mode = "payment",
                 };
 
+                double totalAmountWithVoucher = ShoppingCartVM.OrderHeader.OrderTotal;
+                int totalItemCount = ShoppingCartVM.ShoppingCartList.Sum(cart => cart.Count);
+
                 foreach (var item in ShoppingCartVM.ShoppingCartList)
                 {
-                    var sessionLineItem = new SessionLineItemOptions
+                    double unitPriceWithVoucher = totalAmountWithVoucher / totalItemCount;
+
+                    var sessionLineItem = new Stripe.Checkout.SessionLineItemOptions
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
+                        PriceData = new Stripe.Checkout.SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long)(item.Price * 100), // $20.5 => 2050
+                            UnitAmount = (long)(unitPriceWithVoucher * 100), // Price per item in cents after applying voucher
                             Currency = "usd",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = item.Product.Title
                             }
@@ -190,7 +216,6 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
                     };
                     options.LineItems.Add(sessionLineItem);
                 }
-
 
                 var service = new Stripe.Checkout.SessionService();
                 Session session = service.Create(options);
@@ -201,6 +226,7 @@ namespace BookSellingWebsite.Areas.Customer.Controllers
             }
 
             return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
+
         }
 
         public IActionResult OrderConfirmation(int id)
