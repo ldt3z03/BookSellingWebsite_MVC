@@ -1,0 +1,191 @@
+[33mcommit 6a31db73bbd01f00627de9bcf07830a7b6e9733d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Tue Jun 4 19:03:02 2024 +0700
+
+    Remove sensitive information from Program.cs
+
+[33mcommit b83d225988072d7b49d0b3aea937d52cc4172cf8[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Tue Jun 4 18:53:57 2024 +0700
+
+    Add Voucher
+
+[33mcommit b44c653088afabb2ada2cbf63bb004b4ada3f066[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Mon Jun 3 19:28:17 2024 +0700
+
+    Upgraded website
+
+[33mcommit 7d08f81b23ce2e5532ce3028a1243100fcb6cdc9[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Mon Jun 3 01:24:29 2024 +0700
+
+    Add FlashSaleProducts
+
+[33mcommit 8770883843decd468f1eb0fc435a27ef44976cf2[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sun Jun 2 00:25:14 2024 +0700
+
+    Add an icon to the item and Upgraded display
+
+[33mcommit 3045cd5b574b9a382f6632c6de0fd49908d83d0c[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sat Jun 1 22:17:37 2024 +0700
+
+    Add Notification and Introducing customer reviews
+
+[33mcommit e9e052b856398cc32835e94e519e966b6a8e2b39[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Fri May 31 02:14:11 2024 +0700
+
+    Add Fancybox in details products
+
+[33mcommit c57af478a7a0db7166433dc1c969638e9f99c905[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Wed May 29 15:16:33 2024 +0700
+
+    Add Pagination
+
+[33mcommit a3874003cd5c300e1e6dd1d58e8ecd78a9f49cfa[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Wed May 29 01:43:46 2024 +0700
+
+    Add choose a price range for the product
+
+[33mcommit 80094b96812187f3e80e887e19b99c8020d5b520[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Tue May 28 01:51:23 2024 +0700
+
+    Add Best Selling Products
+
+[33mcommit 0dd085619c35cca40c23ff4688bb7a9f8247cca0[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sat May 25 00:09:16 2024 +0700
+
+    Filter products by price and Upgraded search
+
+[33mcommit 44d48e52c0046e2ca5a9e960828836c80d4b3700[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Fri May 24 17:00:11 2024 +0700
+
+    Upgrade AccessDenied
+
+[33mcommit bf5a66d727825e8b42e86431bf050b3a5e507e57[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Thu May 23 23:51:47 2024 +0700
+
+    Upgrade email
+
+[33mcommit 4cf175cb72206e92d1aaf4c58ea0c4882e7fd5fb[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Thu May 23 01:33:29 2024 +0700
+
+    Send email
+
+[33mcommit f89e42db08969feaa7caed5ac8df79fe52106924[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Wed May 22 20:17:01 2024 +0700
+
+    Add top-scro
+
+[33mcommit b943653676e2a7ffbd92524d3e7fc5ddc8957d28[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sat May 18 00:44:24 2024 +0700
+
+    Add Dark mode
+
+[33mcommit cefd09b119b812efddcbbc9d1bf449da5d3cdaa9[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Fri May 17 03:10:03 2024 +0700
+
+    Add footer, add actions footer And upgrade css
+
+[33mcommit cb00f494eae1ae38360694886bb5f2543d8bee4d[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Thu May 16 00:59:18 2024 +0700
+
+    Add AutoComplete and Product portfolio
+
+[33mcommit 1a581d0e18324202eec305c3ee3f69b2af4f8f17[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Tue May 14 14:00:29 2024 +0700
+
+    Add Carousel
+
+[33mcommit f98b7b7a752429779752b35545ec975fca74a9cd[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sat May 4 23:43:38 2024 +0700
+
+    Show Ordersummary
+
+[33mcommit 1e9196c4271348a241ece1feebeb9836b6d3d8ef[m
+Author: thang <hahuythang159@gmail.com>
+Date:   Sat May 4 23:38:21 2024 +0700
+
+    Add GetOrderSummary
+
+[33mcommit 44d0842bb229ed6b81a19789bba591be453c527e[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Thu May 2 21:40:01 2024 +0700
+
+    Add login logout with Google
+
+[33mcommit 78914d137122c597da7b36d716a6370a29cad6d5[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Mon Apr 29 21:52:56 2024 +0700
+
+    Update UserController
+
+[33mcommit 22bd7ddd24ca1c84151dd6e326376dad85f362bd[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Mon Apr 29 21:04:24 2024 +0700
+
+    Update Multiple Product Image
+
+[33mcommit 5f31a58690111a0fac0c49bb982f6a7765cdb1bf[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Sat Apr 27 21:30:09 2024 +0700
+
+    Update User Management
+
+[33mcommit 742819f490006105574e89212f5061364c296eee[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Fri Apr 26 19:14:46 2024 +0700
+
+    Update login and sign up with Facebook
+
+[33mcommit ed659b419b1d9648eae2f9fdfceeac82592dc0fa[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Wed Apr 24 21:35:57 2024 +0700
+
+    Add view component
+
+[33mcommit 8bbf6a4bfb5e29b5fb5fd7670b7a43baed47cdaf[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Wed Apr 24 20:48:33 2024 +0700
+
+    Add session to shopping cart
+
+[33mcommit d53521c7b7db5c70b8589b10d5826c642f7f03a0[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Wed Apr 24 19:43:32 2024 +0700
+
+    Update Order Management
+
+[33mcommit bed848858d64ecf58340d7ecc38327e710b17991[m
+Author: ldt3z03 <kaitokun206203@gmail.com>
+Date:   Sun Apr 14 19:05:18 2024 +0700
+
+    Update Project
+
+[33mcommit 595cca4abcb3cd5ea984e59c70c4439be4baf528[m
+Author: kaito <kaito@MSI>
+Date:   Thu Apr 4 17:26:05 2024 +0700
+
+    Add project files.
+
+[33mcommit 7d8e6b35b23af6a955b1ba875a265d6f51fb5c7c[m
+Author: kaito <kaito@MSI>
+Date:   Thu Apr 4 17:25:35 2024 +0700
+
+    Add .gitattributes and .gitignore.
