@@ -99,17 +99,17 @@
                     <div class="product-details">
                         <div>
                             <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Title</p>
-                            <p class="card-title text-warning text-center">by <b>@product.Author</b></p>
+                            <p class="card-title text-warning text-center">Tác giả: <b>@product.Author</b></p>
                         </div>
                         <div>
                             <p class="text-dark text-opacity-75 text-center mb-0">
-                                List Price:
+                                Bảng giá:
                                 <span class="text-decoration-line-through">
                                     @product.ListPrice.ToString("c")
                                 </span>
                             </p>
                             <p class="text-dark text-opacity-75 text-center">
-                                As low as:
+                                Giá thấp nhất:
                                 <span>
                                     @product.Price100.ToString("c")
                                 </span>
@@ -172,17 +172,17 @@
                         <div class="product-details">
                             <div>
                                 <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Title</p>
-                                <p class="card-title text-warning text-center">by <b>@product.Author</b></p>
+                                <p class="card-title text-warning text-center">Tác giả: <b>@product.Author</b></p>
                             </div>
                             <div>
                                 <p class="text-dark text-opacity-75 text-center mb-0">
-                                    List Price:
+                                    Bảng giá:
                                     <span class="text-decoration-line-through">
                                         @product.ListPrice.ToString("c")
                                     </span>
                                 </p>
                                 <p class="text-dark text-opacity-75 text-center">
-                                    As low as:
+                                    Giá thấp nhất:
                                     <span>
                                         @product.Price100.ToString("c")
                                     </span>
@@ -192,7 +192,7 @@
                                 <a asp-action="Details"
                                    asp-route-productId="@product.Id"
                                    class="btn btn-primary bg-gradient border-0 form-control">
-                                    Details
+                                    Xem chi tiết
                                 </a>
                             </div>
                         </div>

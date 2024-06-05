@@ -43,13 +43,13 @@ builder.Services.AddAuthentication().AddFacebook(options =>
     options.AppSecret = "466f2ea542f486da22867a758f6483fc";
 });
 
-builder.Services.AddAuthentication().AddGoogle(options =>
-{
-    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+//builder.Services.AddAuthentication().AddGoogle(options =>
+//{
+//    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+//    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
 
 
-});
+//});
 
 
 
